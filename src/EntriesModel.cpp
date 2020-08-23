@@ -58,21 +58,20 @@ bool EntriesModel::setData(const QModelIndex &index, const QVariant &value, int 
 	return result;
 }
 
-void EntriesModel::removeRow(const int index){
-	beginRemoveRows(QModelIndex(), index, 1);
-	m_entries_ptr->erase(index);
-	endRemoveRows();
-}
-
-void EntriesModel::appendRow(const Entry &entry)
+void EntriesModel::resetData(const std::vector<Entry> &data)
 {
-	beginInsertRows(QModelIndex(), rowCount() - 1, 1);
-	if (m_entries_ref_ptr != nullptr){
-		m_entries_ref_ptr->push_back(entry);
-	} else {
-		m_entries_ptr->push_back(entry);
+	if (data.size() == m_entries_ptr->size()){
+		*m_entries_ptr = data;
+	} else if (data.size() > m_entries_ptr->size()){
+		beginInsertRows(QModelIndex(), m_entries_ptr->size() - 1, data.size()-1);
+		*m_entries_ptr = data;
+		endInsertRows();
+	} else if (data.size() < m_entries_ptr->size()){
+		beginRemoveRows(QModelIndex(), data.size()-1, m_entries_ptr->size()-1);
+		*m_entries_ptr = data;
+		endRemoveRows();
 	}
-	endInsertRows();
+	emit dataChanged(createIndex(0, 0), createIndex(rowCount() - 1, 0));
 }
 
 QHash<int, QByteArray> EntriesModel::roleNames() const
@@ -83,13 +82,4 @@ QHash<int, QByteArray> EntriesModel::roleNames() const
 		{FatherName, "father_name"},
 		{Phone, "phone"}
 	};
-}
-
-void EntriesModel::filtration(const QString &filter){
-	beginRemoveRows(QModelIndex(), 0, rowCount());
-	endRemoveRows();
-	m_entries_ref_ptr.reset();
-	if (filter != ""){
-		m_entries_ref_ptr = std::make_shared<EntriesRef>(m_entries_ptr.get(), filter);
-	}
 }

@@ -9,17 +9,7 @@
 #include <QString>
 #include <map>
 #include <DBManager.h>
-
-class MyInterfaceImpl: public POA_MyInterface
-{
-public:
-	using Entries_sptr = std::shared_ptr<MyInterface::Entries>;
-	MyInterfaceImpl(const std::vector<Entry>& entries);
-	MyInterface::Entries *load() override;
-	Entries_sptr entries() const;
-private:
-	Entries_sptr m_entries;
-};
+#include <Servant.h>
 
 class Server{
 public:

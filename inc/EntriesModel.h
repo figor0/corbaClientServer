@@ -21,8 +21,7 @@ public:
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index = QModelIndex(), int role = Qt::DisplayRole) const;
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-	void removeRow(const int index);
-	void appendRow(const Entry& entry);
+	void resetData(const std::vector<Entry>& data);
 	QHash<int, QByteArray> roleNames() const;
 private:
 	Entries_ptr m_entries_ptr;

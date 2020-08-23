@@ -3,7 +3,9 @@
 #include <EntriesModel.h>
 
 
-ModelManager::ModelManager(QObject *parent): QObject(parent),
+ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
+						   QObject *parent): QObject(parent),
+	m_loader(loader_ptr),
 	m_entries_ptr(std::make_shared<std::vector<Entry>>()),
 	m_model_ptr(std::make_shared<EntriesModel>(m_entries_ptr))
 {}
@@ -11,10 +13,8 @@ ModelManager::ModelManager(QObject *parent): QObject(parent),
 bool ModelManager::load()
 {
 	bool result = true;
-	m_model_ptr.reset();
-	m_entries_ptr.reset();
-	m_entries_ptr = std::make_shared<std::vector<Entry>>(m_db_manager.load(m_db_path));
-	m_model_ptr = std::make_shared<EntriesModel>(m_entries_ptr);
+	std::vector<Entry> loaded_data = m_loader->load();
+	m_model_ptr->resetData(loaded_data);
 	return result;
 }
 
