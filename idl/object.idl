@@ -1,0 +1,12 @@
+typedef struct EntryIdl{
+	string first_name;
+	string last_name;
+	string father_name;
+	string phone;
+} Entry_alias;
+
+interface MyInterface
+{
+	typedef sequence<EntryIdl> Entries;
+	Entries load();
+};
