@@ -20,23 +20,35 @@ include_directories(/usr/include/omniORB4 /usr/include/omnithread)
 set(OMNIDFILES
     inc/object.hh
     src/objectSK.cc
+    inc/Servant.h
+    src/Servant.cpp
 )
-set(HEADERS
-    inc/ModelManager.h
+set(CLIENT_HEADERS
     inc/EntriesModel.h
-    inc/generate.h
-    inc/DBManager.h
-    inc/Entry.h
-    inc/Client.h
-    inc/Server.h)
-set(SOURCES
-    src/ModelManager.cpp
+    inc/ModelManager.h
+    inc/CorbaLoader.h
+    )
+set(CLIENT_SOURCES
+    src/CorbaLoader.cpp
     src/EntriesModel.cpp
-    src/generate.cpp
+    src/ModelManager.cpp
+    )
+set(SERVER_HEADERS
+    inc/Server.h
+    inc/DBManager.h
+    )
+set(SERVER_SOURCES
     src/DBManager.cpp
+    src/Server.cpp
+    )
+set(HEADERS
+    inc/generate.h
+    inc/Entry.h
+    )
+set(SOURCES
+    src/generate.cpp
     src/Entry.cpp
-    src/Client.cpp
-    src/Server.cpp)
+    )
 
 add_executable(Corba_Client
         client.cpp
@@ -44,6 +56,8 @@ add_executable(Corba_Client
         ${HEADERS}
         ${SOURCES}
         ${OMNIDFILES}
+        ${CLIENT_HEADERS}
+        ${CLIENT_SOURCES}
 )
 
 target_link_libraries(Corba_Client
@@ -56,25 +70,27 @@ add_executable(Corba_Server
     ${HEADERS}
     ${SOURCES}
     ${OMNIDFILES}
+    ${SERVER_HEADERS}
+    ${SERVER_SOURCES}
 )
 
 target_link_libraries(Corba_Server
     PRIVATE Qt5::Core Qt5::Sql pthread omniORB4 omnithread)
 
-add_executable(tests
-    test/all_unit_tests.cpp
-    ${HEADERS}
-    ${SOURCES}
-    ${OMNIDFILES}
-)
+#add_executable(tests
+#    test/all_unit_tests.cpp
+#    ${HEADERS}
+#    ${SOURCES}
+#    ${OMNIDFILES}
+#)
 
-target_link_libraries(tests
-    PRIVATE
-    Qt5::Core
-    Qt5::Quick
-    Qt5::Sql
-    ${Boost_LIBRARIES} pthread omniORB4 omnithread)
+#target_link_libraries(tests
+#    PRIVATE
+#    Qt5::Core
+#    Qt5::Quick
+#    Qt5::Sql
+#    ${Boost_LIBRARIES} pthread omniORB4 omnithread)
 
-enable_testing()
+#enable_testing()
 
-add_test(NAME Tests COMMAND tests)
+#add_test(NAME Tests COMMAND tests)

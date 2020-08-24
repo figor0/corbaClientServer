@@ -13,8 +13,7 @@ std::vector<Entry> CorbaLoader::load()
 	{
 		PortableServer::ObjectId_var objID = PortableServer::string_to_ObjectId("MyObject");
 //		CORBA::Object_var obj = m_orb->string_to_object(m_servant_ref.toStdString().data());
-		PortableServer::ObjectId_var objID = PortableServer::string_to_ObjectId("MyObject");
-		MyInterface_var oRef = MyI;
+		MyInterface_var oRef = MyInterface::_bind();
 //		MyInterface_var oRef = MyInterface::_narrow (obj);
 		if (CORBA::is_nil(oRef))
 		{

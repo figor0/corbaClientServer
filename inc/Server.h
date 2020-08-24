@@ -24,9 +24,7 @@ public:
 	void start();
 	void stop();
 	ServerState getState() const;
-//	InterfaceImp_ptr getServant_ptr() const;
 	MyInterfaceImpl *getServant_ptr() const;
-
 private:
 	ServerState m_state = ServerState::Stoped;
 	std::thread m_worker;

@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>EntryDelegate.qml</file>
+        <file>HeadControls.qml</file>
     </qresource>
 </RCC>
