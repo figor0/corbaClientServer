@@ -9,9 +9,6 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Телефонный справочник")
-    onClosing: {
-        entries_manager.save()
-    }
     Item{
         id: header
         height: parent.height*0.1

@@ -20,7 +20,7 @@ CORBA::String_var Server::getRef(){
 
 void Server::start()
 {
-	m_worker = std::thread(&CORBA::ORB::run, m_orb_ptr);
+	m_orb_ptr->run();
 }
 
 void Server::stop()

@@ -17,7 +17,7 @@ public:
 		Stoped,
 		Started
 	};
-	using InterfaceImp_ptr = std::shared_ptr<MyInterfaceImpl>;
+	using InterfaceImpl_ptr = PortableServer::Servant_var<MyInterfaceImpl>;
 	Server(const QString& db_path,
 		   CORBA::ORB_var orb);
 	CORBA::String_var getRef();
@@ -29,8 +29,7 @@ private:
 	ServerState m_state = ServerState::Stoped;
 	std::thread m_worker;
 	CORBA::String_var m_ref;
-//	InterfaceImp_ptr m_servant_ptr;
-	MyInterfaceImpl* m_servant_ptr;
+	InterfaceImpl_ptr m_servant_ptr;
 	CORBA::ORB_var m_orb_ptr;
 };
 
