@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 			return 1;
 		PortableServer::POAManager_var pman = poa->the_POAManager();
 		pman->activate();
-		orb->run();
+		server.start();
 		dbClear();
 		return 0;
 	}
