@@ -36,7 +36,7 @@ std::shared_ptr<Action> createAction(int type)
 	std::shared_ptr<Action> result;
 	switch (type) {
 	case 1:
-		result = std::make_shared<InvectAction>();
+		result = std::make_shared<InvertAction>();
 		break;
 	case 2:
 		result = std::make_shared<toLowerAction>();
