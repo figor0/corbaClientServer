@@ -16,27 +16,27 @@ public:
 	virtual void prepare(MyInterface::Entries* entries) = 0;
 };
 
-class InvertVisitor: public Action
+class InvectAction: public Action
 {
 public:
-	~InvertVisitor() override = default;
+	~InvectAction() override = default;
 	void prepare(MyInterface::Entries* entries) override;
 };
 
-class toLowerVisitor: public Action
+class toLowerAction: public Action
 {
 public:
-	~toLowerVisitor() override = default;
+	~toLowerAction() override = default;
 	void prepare(MyInterface::Entries* entries) override;
 private:
 	void toLower(EntryIdl& entry);
 	void toLower(::CORBA::String_member& str);
 };
 
-class toUpperVisitor: public Action
+class toUpperAction: public Action
 {
 public:
-	~toUpperVisitor() override = default;
+	~toUpperAction() override = default;
 	void prepare(MyInterface::Entries* entries) override;
 private:
 	void toUpper(EntryIdl& entry);

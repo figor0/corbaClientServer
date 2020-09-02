@@ -35,13 +35,13 @@ std::shared_ptr<Action> createAction(int type)
 	std::shared_ptr<Action> result;
 	switch (type) {
 	case 1:
-		result = std::make_shared<InvertVisitor>();
+		result = std::make_shared<InvectAction>();
 		break;
 	case 2:
-		result = std::make_shared<toLowerVisitor>();
+		result = std::make_shared<toLowerAction>();
 		break;
 	case 3:
-		result = std::make_shared<toUpperVisitor>();
+		result = std::make_shared<toUpperAction>();
 		break;
 	}
 	return result;
