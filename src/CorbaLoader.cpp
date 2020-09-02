@@ -79,7 +79,7 @@ std::vector<Entry> CorbaLoader::load(const int type)
 		}
 		else
 		{
-			MyInterface::Entries* entries_out;
+			MyInterface::Entries_var entries_out;
 			oRef->load(type, entries_out);
 			result = corbaEntries2Entries(entries_out);
 		}
@@ -106,7 +106,7 @@ void CorbaLoader::change(const int type, std::vector<Entry>& entries)
 		{
 			auto entries_out = vect2corbaEntries(entries);
 			oRef->changeRequest(type, *entries_out);
-			entries = corbaEntries2Entries(entries_out.get());
+			entries = corbaEntries2Entries(*entries_out);
 		}
 	}
 	catch(const CORBA::Exception& e)
