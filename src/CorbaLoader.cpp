@@ -89,3 +89,27 @@ std::vector<Entry> CorbaLoader::load(const int type)
 	}
 	return result;
 }
+
+void CorbaLoader::change(const int type, std::vector<Entry>& entries)
+{
+	try
+	{
+		CORBA::Object_var o = getObjectReference(m_orb);
+		MyInterface_ptr oRef = MyInterface::_narrow (o);
+		if (CORBA::is_nil(oRef))
+		{
+			std::cout << "Failure during getting of object"
+						 " reference\n";
+		}
+		else
+		{
+			auto entries_out = vect2corbaEntries(entries);
+			oRef->changeRequest(type, *entries_out);
+			entries = corbaEntries2Entries(entries_out.get());
+		}
+	}
+	catch(const CORBA::Exception& e)
+	{
+		std::cerr << e._name() << std::endl;
+	}
+}

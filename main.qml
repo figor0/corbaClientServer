@@ -11,7 +11,7 @@ ApplicationWindow {
     title: qsTr("Телефонный справочник")
     Item{
         id: header
-        height: parent.height*0.1
+        height: parent.height*0.3
         anchors{
             top: parent.top
             left: parent.left

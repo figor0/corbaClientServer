@@ -38,6 +38,14 @@ void MyInterfaceImpl::load(::CORBA::Long action,
 		visitor->prepare(ent.ptr());
 }
 
+void MyInterfaceImpl::changeRequest(::CORBA::Long action, MyInterface::Entries &entr)
+{
+	std::cout << "Change Parametr " << action << std::endl;
+	auto visitor = createVisitor(action);
+	if (visitor != nullptr)
+		visitor->prepare(&entr);
+}
+
 MyInterfaceImpl::Entries_sptr MyInterfaceImpl::entries() const
 {
 	return m_entries;
@@ -61,9 +69,9 @@ std::vector<Entry> corbaEntries2Entries(MyInterface::Entries* corba_entries)
 	return result;
 }
 
-std::shared_ptr<Visitor> createVisitor(int type)
+std::shared_ptr<Action> createVisitor(int type)
 {
-	std::shared_ptr<Visitor> result;
+	std::shared_ptr<Action> result;
 	switch (type) {
 	case 1:
 		result = std::make_shared<InvertVisitor>();

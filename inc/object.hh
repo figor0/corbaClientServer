@@ -168,6 +168,7 @@ class _objref_MyInterface :
 public:
   // IDL operations
   void load(::CORBA::Long action, ::MyInterface::Entries_out ent);
+  void changeRequest(::CORBA::Long action, ::MyInterface::Entries& entr);
 
   // Constructors
   inline _objref_MyInterface()  { _PR_setobj(0); }  // nil
@@ -203,6 +204,7 @@ public:
   virtual ~_impl_MyInterface();
 
   virtual void load(::CORBA::Long action, ::MyInterface::Entries_out ent) = 0;
+  virtual void changeRequest(::CORBA::Long action, ::MyInterface::Entries& entr) = 0;
   
 public:  // Really protected, workaround for xlC
   virtual _CORBA_Boolean _dispatch(omniCallHandle&);

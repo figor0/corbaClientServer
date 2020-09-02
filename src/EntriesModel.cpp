@@ -83,3 +83,8 @@ QHash<int, QByteArray> EntriesModel::roleNames() const
 		{Phone, "phone"}
 	};
 }
+
+std::vector<Entry> EntriesModel::entries() const
+{
+	return *m_entries_ptr;
+}

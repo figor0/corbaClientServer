@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>EntryDelegate.qml</file>
         <file>HeadControls.qml</file>
+        <file>ActionMenu.qml</file>
     </qresource>
 </RCC>

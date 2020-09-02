@@ -9,21 +9,21 @@ enum class VisitorsType
 	ToUpper
 };
 
-class Visitor
+class Action
 {
 public:
-	virtual ~Visitor() = default;
+	virtual ~Action() = default;
 	virtual void prepare(MyInterface::Entries* entries) = 0;
 };
 
-class InvertVisitor: public Visitor
+class InvertVisitor: public Action
 {
 public:
 	~InvertVisitor() override = default;
 	void prepare(MyInterface::Entries* entries) override;
 };
 
-class toLowerVisitor: public Visitor
+class toLowerVisitor: public Action
 {
 public:
 	~toLowerVisitor() override = default;
@@ -33,7 +33,7 @@ private:
 	void toLower(::CORBA::String_member& str);
 };
 
-class toUpperVisitor: public Visitor
+class toUpperVisitor: public Action
 {
 public:
 	~toUpperVisitor() override = default;

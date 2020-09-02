@@ -14,13 +14,14 @@ public:
 	using Entries_sptr = std::shared_ptr<MyInterface::Entries>;
 	MyInterfaceImpl(const std::vector<Entry>& entries);
 	void load(::CORBA::Long action, MyInterface::Entries_out ent) override;
+	void changeRequest(::CORBA::Long action, MyInterface::Entries& entr) override;
 	Entries_sptr entries() const;
 private:
 	Entries_sptr m_entries;
 public:
 };
 
-std::shared_ptr<Visitor> createVisitor(int type);
+std::shared_ptr<Action> createVisitor(int type);
 
 EntryIdl entry2corbaEntry(const Entry &entry);
 Entry corbaEntry2entry(const EntryIdl& corba_entry);

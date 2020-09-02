@@ -11,4 +11,5 @@ interface MyInterface
 		sequence<EntryIdl> m_entries;
 	} Entries_alias;
 	void load(in long action, out Entries ent);
+	void changeRequest(in long action, inout Entries entr);
 };

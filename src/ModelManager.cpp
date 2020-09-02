@@ -10,10 +10,19 @@ ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 	m_model_ptr(std::make_shared<EntriesModel>(m_entries_ptr))
 {}
 
-bool ModelManager::load()
+bool ModelManager::change(const int action)
 {
 	bool result = true;
-	std::vector<Entry> loaded_data = m_loader->load(0);
+	auto input_entries = m_model_ptr->entries();
+	m_loader->change(action, input_entries);
+	m_model_ptr->resetData(input_entries);
+	return result;
+}
+
+bool ModelManager::load(const int action)
+{
+	bool result = true;
+	std::vector<Entry> loaded_data = m_loader->load(action);
 	m_model_ptr->resetData(loaded_data);
 	return result;
 }

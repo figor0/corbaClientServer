@@ -231,6 +231,91 @@ void _objref_MyInterface::load(::CORBA::Long action, ::MyInterface::Entries_out 
 
 }
 
+
+//
+// Code for MyInterface::changeRequest
+
+// Proxy call descriptor class. Mangled signature:
+//  void_i_clong_n_cMyInterface_mEntries
+class _0RL_cd_9d56a81675c47daa_20000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_9d56a81675c47daa_20000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::Long arg_0;
+  MyInterface::Entries_var arg_1_;
+  MyInterface::Entries* arg_1;
+};
+
+void _0RL_cd_9d56a81675c47daa_20000000::marshalArguments(cdrStream& _n)
+{
+  arg_0 >>= _n;
+  (const MyInterface::Entries&) *arg_1 >>= _n;
+
+}
+
+void _0RL_cd_9d56a81675c47daa_20000000::unmarshalArguments(cdrStream& _n)
+{
+  (::CORBA::Long&)arg_0 <<= _n;
+  arg_1_ = new MyInterface::Entries;
+  (MyInterface::Entries&)arg_1_ <<= _n;
+  arg_1 = &arg_1_.inout();
+
+}
+
+void _0RL_cd_9d56a81675c47daa_20000000::marshalReturnedValues(cdrStream& _n)
+{
+  (const MyInterface::Entries&) *arg_1 >>= _n;
+
+}
+
+void _0RL_cd_9d56a81675c47daa_20000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  (MyInterface::Entries&)*arg_1 <<= _n;
+
+}
+
+const char* const _0RL_cd_9d56a81675c47daa_20000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_9d56a81675c47daa_30000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_9d56a81675c47daa_20000000* tcd = (_0RL_cd_9d56a81675c47daa_20000000*)cd;
+  _impl_MyInterface* impl = (_impl_MyInterface*) svnt->_ptrToInterface(MyInterface::_PD_repoId);
+  impl->changeRequest(tcd->arg_0, *tcd->arg_1);
+
+
+}
+
+void _objref_MyInterface::changeRequest(::CORBA::Long action, ::MyInterface::Entries& entr)
+{
+  _0RL_cd_9d56a81675c47daa_20000000 _call_desc(_0RL_lcfn_9d56a81675c47daa_30000000, "changeRequest", 14);
+  _call_desc.arg_0 = action;
+  _call_desc.arg_1 = &(::MyInterface::Entries&) entr;
+
+  _invoke(_call_desc);
+
+
+
+}
+
 _pof_MyInterface::~_pof_MyInterface() {}
 
 
@@ -263,6 +348,14 @@ _impl_MyInterface::_dispatch(omniCallHandle& _handle)
   if (omni::strMatch(op, "load")) {
 
     _0RL_cd_9d56a81675c47daa_00000000 _call_desc(_0RL_lcfn_9d56a81675c47daa_10000000, "load", 5, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
+  if (omni::strMatch(op, "changeRequest")) {
+
+    _0RL_cd_9d56a81675c47daa_20000000 _call_desc(_0RL_lcfn_9d56a81675c47daa_30000000, "changeRequest", 14, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;

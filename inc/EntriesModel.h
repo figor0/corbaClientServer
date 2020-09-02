@@ -23,6 +23,7 @@ public:
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	void resetData(const std::vector<Entry>& data);
 	QHash<int, QByteArray> roleNames() const;
+	std::vector<Entry> entries() const;
 private:
 	Entries_ptr m_entries_ptr;
 };
