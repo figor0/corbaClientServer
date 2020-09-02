@@ -1,3 +1,4 @@
+#pragma once
 #include <QString>
 #include <CORBA.h>
 #include <vector>

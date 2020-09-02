@@ -6,9 +6,7 @@
 #include <vector>
 #include <QtSql>
 #include <QSqlRecord>
-#include <QString>
 #include <map>
-#include <DBManager.h>
 #include <Servant.h>
 
 class Server{
