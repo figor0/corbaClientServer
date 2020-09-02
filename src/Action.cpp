@@ -1,4 +1,4 @@
-#include <Visitor.h>
+#include <Action.h>
 #include <ctype.h>
 
 void InvertVisitor::prepare(MyInterface::Entries *entries)

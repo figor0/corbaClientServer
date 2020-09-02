@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 #include <QString>
-#include <Visitor.h>
+#include <Action.h>
 
 class MyInterfaceImpl: public POA_MyInterface
 {
@@ -22,8 +22,3 @@ public:
 };
 
 std::shared_ptr<Action> createVisitor(int type);
-
-EntryIdl entry2corbaEntry(const Entry &entry);
-Entry corbaEntry2entry(const EntryIdl& corba_entry);
-MyInterfaceImpl::Entries_sptr vect2corbaEntries(const std::vector<Entry> &entries_vector);
-std::vector<Entry> corbaEntries2Entries(MyInterface::Entries* corba_entries);

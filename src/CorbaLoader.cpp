@@ -1,6 +1,7 @@
 #include <CorbaLoader.h>
 #include <Servant.h>
 #include <iostream>
+#include <cpp2idlEntry.h>
 
 CorbaLoader::CorbaLoader( CORBA::ORB_var orb)
 	:  m_orb(orb)
