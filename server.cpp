@@ -14,7 +14,7 @@ QString dbPrepare()
 		file.remove();
 	}
 	QString result;
-	DBManager saver;
+	auto& saver = DBManager::instance();
 	auto generated_data = entriesGenerator(g_entries_size);
 	if (saver.save(db_global_path, generated_data) == generated_data.size()){
 		result = db_global_path;

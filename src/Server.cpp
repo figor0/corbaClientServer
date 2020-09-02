@@ -7,7 +7,7 @@
 Server::Server(const QString &db_path,
 			   CORBA::ORB_var orb)
 {
-	DBManager manager;
+	auto& manager = DBManager::instance();
 	auto data_vector = manager.load(db_path);
 	m_orb_ptr = orb;
 	m_servant_ptr = new MyInterfaceImpl(data_vector);
