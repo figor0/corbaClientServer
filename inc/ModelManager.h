@@ -15,7 +15,7 @@ public:
 	using CorbaLoader_ptr = std::shared_ptr<CorbaLoader>;
 	ModelManager(CorbaLoader_ptr loader, QObject* parent = nullptr);
 	Q_INVOKABLE bool load(int action = 0);
-	Q_INVOKABLE bool change(const int action = 0);
+	Q_INVOKABLE void change(const int action = 0);
 	void registration( QQmlContext* context_ptr,
 						const QString& model_name,
 						const QString& model_manager_name);

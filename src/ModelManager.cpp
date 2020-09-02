@@ -10,13 +10,11 @@ ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 	m_model_ptr(std::make_shared<EntriesModel>(m_entries_ptr))
 {}
 
-bool ModelManager::change(const int action)
+void ModelManager::change(const int action)
 {
-	bool result = true;
 	auto input_entries = m_model_ptr->entries();
 	m_loader->change(action, input_entries);
 	m_model_ptr->resetData(input_entries);
-	return result;
 }
 
 bool ModelManager::load(const int action)
