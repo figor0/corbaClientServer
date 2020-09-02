@@ -7,22 +7,22 @@ MyInterfaceImpl::MyInterfaceImpl(const std::vector<Entry>& entries_vector)
 	: m_entries(vect2corbaEntries(entries_vector))
 {}
 
-void MyInterfaceImpl::load(::CORBA::Long action,
+void MyInterfaceImpl::load(::CORBA::Long action_id,
 							MyInterface::Entries_out ent)
 {
-	auto visitor = createAction(action);
+	auto action = createAction(action_id);
 	ent = new MyInterface::Entries;
 	ent->m_entries.length(m_entries->m_entries.length());
 	ent->m_entries = m_entries->m_entries;
-	if (visitor != nullptr)
-		visitor->prepare(ent.ptr());
+	if (action != nullptr)
+		action->prepare(ent.ptr());
 }
 
-void MyInterfaceImpl::changeRequest(::CORBA::Long action, MyInterface::Entries &entr)
+void MyInterfaceImpl::changeRequest(::CORBA::Long action_id, MyInterface::Entries &entr)
 {
-	auto visitor = createAction(action);
-	if (visitor != nullptr)
-		visitor->prepare(&entr);
+	auto  action = createAction(action_id);
+	if (action != nullptr)
+		action->prepare(&entr);
 }
 
 MyInterfaceImpl::Entries_sptr MyInterfaceImpl::entries() const
