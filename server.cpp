@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <CORBA.h>
+#include <DBManager.h>
+#include <QFile>
 
 const QString db_global_path = "./db";
 const size_t g_entries_size = 20;

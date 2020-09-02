@@ -1,7 +1,5 @@
 #pragma once
-#include <vector>
 #include <object.hh>
-#include <algorithm>
 
 enum class VisitorsType
 {

@@ -1,5 +1,7 @@
 #include <Action.h>
 #include <ctype.h>
+#include <vector>
+#include <algorithm>
 
 void InvectAction::prepare(MyInterface::Entries *entries)
 {

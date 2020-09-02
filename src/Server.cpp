@@ -1,7 +1,6 @@
 #include <Server.h>
 #include <DBManager.h>
 #include <memory>
-#include <thread>
 
 
 Server::Server(const QString &db_path,
@@ -26,7 +25,6 @@ void Server::start()
 void Server::stop()
 {
 	m_orb_ptr->shutdown(true);
-	m_worker.join();
 }
 
 Server::ServerState Server::getState() const

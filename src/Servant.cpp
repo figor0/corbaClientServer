@@ -1,6 +1,7 @@
 #include <Servant.h>
 #include <iostream>
 #include <cpp2idlEntry.h>
+#include <Action.h>
 
 
 MyInterfaceImpl::MyInterfaceImpl(const std::vector<Entry>& entries_vector)

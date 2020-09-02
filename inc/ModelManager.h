@@ -1,12 +1,15 @@
 #pragma once
 #include <QObject>
 #include <memory>
-#include <EntriesModel.h>
 #include <Entry.h>
 #include <CORBA.h>
 #include <CorbaLoader.h>
 
 class QQmlContext;
+
+class EntriesModel;
+class Entry;
+
 
 class ModelManager: public QObject{
 	Q_OBJECT

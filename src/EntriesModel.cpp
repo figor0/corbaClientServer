@@ -1,4 +1,7 @@
 #include <EntriesModel.h>
+#include <DBManager.h>
+#include <Entry.h>
+#include <QByteArray>
 
 EntriesModel::EntriesModel( EntriesModel::Entries_ptr entries_ptr,
 							QObject *parent): QAbstractTableModel(parent),

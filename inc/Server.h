@@ -3,10 +3,6 @@
 #include <omniORB4/CORBA.h>
 #include <omnithread.h>
 #include <Entry.h>
-#include <vector>
-#include <QtSql>
-#include <QSqlRecord>
-#include <map>
 #include <Servant.h>
 
 class Server{
@@ -25,7 +21,6 @@ public:
 	MyInterfaceImpl *getServant_ptr() const;
 private:
 	ServerState m_state = ServerState::Stoped;
-	std::thread m_worker;
 	CORBA::String_var m_ref;
 	InterfaceImpl_ptr m_servant_ptr;
 	CORBA::ORB_var m_orb_ptr;

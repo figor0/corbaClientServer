@@ -1,6 +1,8 @@
 #include <ModelManager.h>
 #include <QQmlContext>
 #include <EntriesModel.h>
+#include <Entry.h>
+#include <CorbaLoader.h>
 
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,

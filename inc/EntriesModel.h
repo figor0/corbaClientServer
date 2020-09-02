@@ -1,9 +1,9 @@
 #pragma once
 #include <QAbstractTableModel>
-#include <QString>
 #include <vector>
 #include <memory>
-#include <DBManager.h>
+
+class Entry;
 
 class EntriesModel: public QAbstractTableModel
 {

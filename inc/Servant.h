@@ -5,8 +5,6 @@
 #include <Entry.h>
 #include <memory>
 #include <vector>
-#include <QString>
-#include <Action.h>
 
 class MyInterfaceImpl: public POA_MyInterface
 {
@@ -21,4 +19,5 @@ private:
 public:
 };
 
+class Action;
 std::shared_ptr<Action> createAction(int type);
