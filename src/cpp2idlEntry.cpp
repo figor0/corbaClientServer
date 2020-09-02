@@ -9,11 +9,11 @@ Entry corbaEntry2entry(const EntryIdl &corba_entry){
 	return result;
 }
 
-std::vector<Entry> corbaEntries2Entries(MyInterface::Entries* corba_entries)
+std::vector<Entry> corbaEntries2Entries(const MyInterface::Entries& corba_entries)
 {
-	std::vector<Entry> result(corba_entries->m_entries.length());
+	std::vector<Entry> result(corba_entries.m_entries.length());
 	for (size_t i = 0; i < result.size(); i++){
-		result[i] = corbaEntry2entry(corba_entries->m_entries[i]);
+		result[i] = corbaEntry2entry(corba_entries.m_entries[i]);
 	}
 	return result;
 }
