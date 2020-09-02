@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 
-void InvectAction::prepare(MyInterface::Entries *entries)
+void InvertAction::prepare(MyInterface::Entries *entries)
 {
 	size_t size = entries->m_entries.length();
 	for (size_t i = 0; i < size/2; i++){

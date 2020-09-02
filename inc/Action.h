@@ -15,10 +15,10 @@ public:
 	virtual void prepare(MyInterface::Entries* entries) = 0;
 };
 
-class InvectAction: public Action
+class InvertAction: public Action
 {
 public:
-	~InvectAction() override = default;
+	~InvertAction() override = default;
 	void prepare(MyInterface::Entries* entries) override;
 };
 
