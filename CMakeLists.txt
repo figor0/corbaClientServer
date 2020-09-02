@@ -19,10 +19,8 @@ include_directories(/usr/include/omniORB4 /usr/include/omnithread)
 set(OMNIDLFILES
     inc/object.hh
     src/objectSK.cc
-    inc/Servant.h
-    src/Servant.cpp
-    inc/Visitor.h
-    src/Visitor.cpp
+    inc/cpp2idlEntry.h
+    src/cpp2idlEntry.cpp
 )
 set(CLIENT_HEADERS
     inc/EntriesModel.h
@@ -37,10 +35,14 @@ set(CLIENT_SOURCES
 set(SERVER_HEADERS
     inc/Server.h
     inc/DBManager.h
+    inc/Action.h
+    inc/Servant.h
     )
 set(SERVER_SOURCES
     src/DBManager.cpp
     src/Server.cpp
+    src/Action.cpp
+    src/Servant.cpp
     )
 set(HEADERS
     inc/generate.h

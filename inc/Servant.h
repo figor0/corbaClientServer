@@ -21,4 +21,4 @@ private:
 public:
 };
 
-std::shared_ptr<Action> createVisitor(int type);
+std::shared_ptr<Action> createAction(int type);
