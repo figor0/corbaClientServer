@@ -9,7 +9,7 @@ class CorbaLoader
 {
 public:
 	CorbaLoader(CORBA::ORB_var orb);
-	std::vector<Entry> load();
+	std::vector<Entry> load(const int type);
 private:
 	CORBA::ORB_var m_orb;
 };

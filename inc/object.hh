@@ -137,117 +137,26 @@ public:
   static _core_attr const char* _PD_repoId;
 
   // Other IDL defined within this scope.
-  class Entries_var;
+  struct Entries {
+    typedef _CORBA_ConstrType_Variable_Var<Entries> _var_type;
 
-  class Entries : public _CORBA_Unbounded_Sequence< EntryIdl >  {
-  public:
-    typedef Entries_var _var_type;
-    inline Entries() {}
-    inline Entries(const Entries& _s)
-      : _CORBA_Unbounded_Sequence< EntryIdl > (_s) {}
-
-    inline Entries(_CORBA_ULong _max)
-      : _CORBA_Unbounded_Sequence< EntryIdl > (_max) {}
-    inline Entries(_CORBA_ULong _max, _CORBA_ULong _len, EntryIdl* _val, _CORBA_Boolean _rel=0)
-      : _CORBA_Unbounded_Sequence< EntryIdl > (_max, _len, _val, _rel) {}
-
-  
-
-    inline Entries& operator = (const Entries& _s) {
-      _CORBA_Unbounded_Sequence< EntryIdl > ::operator=(_s);
-      return *this;
-    }
-  };
-
-  class Entries_out;
-
-  class Entries_var {
-  public:
-    inline Entries_var() : _pd_seq(0) {}
-    inline Entries_var(Entries* _s) : _pd_seq(_s) {}
-    inline Entries_var(const Entries_var& _s) {
-      if (_s._pd_seq)  _pd_seq = new Entries(*_s._pd_seq);
-      else             _pd_seq = 0;
-    }
-    inline ~Entries_var() { if (_pd_seq)  delete _pd_seq; }
-      
-    inline Entries_var& operator = (Entries* _s) {
-      if (_pd_seq)  delete _pd_seq;
-      _pd_seq = _s;
-      return *this;
-    }
-    inline Entries_var& operator = (const Entries_var& _s) {
-      if (&_s != this) {
-        if (_s._pd_seq) {
-          if (!_pd_seq)  _pd_seq = new Entries;
-          *_pd_seq = *_s._pd_seq;
-        }
-        else if (_pd_seq) {
-          delete _pd_seq;
-          _pd_seq = 0;
-        }
-      }
-      return *this;
-    }
-    inline EntryIdl& operator [] (_CORBA_ULong _s) {
-      return (*_pd_seq)[_s];
-    }
-
-  
-
-    inline Entries* operator -> () { return _pd_seq; }
-    inline const Entries* operator -> () const { return _pd_seq; }
-#if defined(__GNUG__)
-    inline operator Entries& () const { return *_pd_seq; }
-#else
-    inline operator const Entries& () const { return *_pd_seq; }
-    inline operator Entries& () { return *_pd_seq; }
-#endif
-      
-    inline const Entries& in() const { return *_pd_seq; }
-    inline Entries&       inout()    { return *_pd_seq; }
-    inline Entries*&      out() {
-      if (_pd_seq) { delete _pd_seq; _pd_seq = 0; }
-      return _pd_seq;
-    }
-    inline Entries* _retn() { Entries* tmp = _pd_seq; _pd_seq = 0; return tmp; }
-      
-    friend class Entries_out;
     
-  private:
-    Entries* _pd_seq;
-  };
-
-  class Entries_out {
-  public:
-    inline Entries_out(Entries*& _s) : _data(_s) { _data = 0; }
-    inline Entries_out(Entries_var& _s)
-      : _data(_s._pd_seq) { _s = (Entries*) 0; }
-    inline Entries_out(const Entries_out& _s) : _data(_s._data) {}
-    inline Entries_out& operator = (const Entries_out& _s) {
-      _data = _s._data;
-      return *this;
-    }
-    inline Entries_out& operator = (Entries* _s) {
-      _data = _s;
-      return *this;
-    }
-    inline operator Entries*&()  { return _data; }
-    inline Entries*& ptr()       { return _data; }
-    inline Entries* operator->() { return _data; }
-
-    inline EntryIdl& operator [] (_CORBA_ULong _i) {
-      return (*_data)[_i];
-    }
+    typedef _CORBA_Unbounded_Sequence< EntryIdl >  _m_entries_seq;
+    _m_entries_seq m_entries;
 
   
 
-    Entries*& _data;
-
-  private:
-    Entries_out();
-    Entries_out& operator=(const Entries_var&);
+    void operator>>= (cdrStream &) const;
+    void operator<<= (cdrStream &);
   };
+
+  typedef Entries::_var_type Entries_var;
+
+  typedef _CORBA_ConstrType_Variable_OUT_arg< Entries,Entries_var > Entries_out;
+
+  typedef Entries Entries_alias;
+  typedef Entries_var Entries_alias_var;
+  typedef Entries_out Entries_alias_out;
 
 
 };
@@ -258,7 +167,7 @@ class _objref_MyInterface :
 {
 public:
   // IDL operations
-  MyInterface::Entries* load();
+  void load(::CORBA::Long action, ::MyInterface::Entries_out ent);
 
   // Constructors
   inline _objref_MyInterface()  { _PR_setobj(0); }  // nil
@@ -293,7 +202,7 @@ class _impl_MyInterface :
 public:
   virtual ~_impl_MyInterface();
 
-  virtual MyInterface::Entries* load() = 0;
+  virtual void load(::CORBA::Long action, ::MyInterface::Entries_out ent) = 0;
   
 public:  // Really protected, workaround for xlC
   virtual _CORBA_Boolean _dispatch(omniCallHandle&);

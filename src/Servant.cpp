@@ -1,4 +1,5 @@
 #include <Servant.h>
+#include <iostream>
 
 EntryIdl entry2corbaEntry(const Entry &entry)
 {
@@ -13,9 +14,9 @@ EntryIdl entry2corbaEntry(const Entry &entry)
 MyInterfaceImpl::Entries_sptr vect2corbaEntries(const std::vector<Entry> &entries_vector)
 {
 	auto result = std::make_shared<MyInterface::Entries>();
-	result->length(entries_vector.size());
-	for (size_t i = 0; i < result->length(); i++){
-		result->operator[](i) = entry2corbaEntry(entries_vector.at(i));
+	result->m_entries.length((entries_vector.size()));
+	for (size_t i = 0; i < result->m_entries.length(); i++){
+		result->m_entries[i] = entry2corbaEntry(entries_vector.at(i));
 	}
 	return result;
 }
@@ -25,15 +26,16 @@ MyInterfaceImpl::MyInterfaceImpl(const std::vector<Entry>& entries_vector)
 	: m_entries(vect2corbaEntries(entries_vector))
 {}
 
-MyInterface::Entries *MyInterfaceImpl::load()
+void MyInterfaceImpl::load(::CORBA::Long action,
+							MyInterface::Entries_out ent)
 {
-	MyInterface::Entries *result_rptr = new MyInterface::Entries;
-	result_rptr->length(m_entries->length());
-	for (size_t i = 0; i < result_rptr->length(); i++)
-	{
-		(*result_rptr)[i] = (*m_entries)[i];
-	}
-	return result_rptr;
+	auto visitor = createVisitor(action);
+	std::cout << "Parametr " << action << std::endl;
+	ent = new MyInterface::Entries;
+	ent->m_entries.length(m_entries->m_entries.length());
+	ent->m_entries = m_entries->m_entries;
+	if (visitor != nullptr)
+		visitor->prepare(ent.ptr());
 }
 
 MyInterfaceImpl::Entries_sptr MyInterfaceImpl::entries() const
@@ -52,9 +54,26 @@ Entry corbaEntry2entry(const EntryIdl &corba_entry){
 
 std::vector<Entry> corbaEntries2Entries(MyInterface::Entries* corba_entries)
 {
-	std::vector<Entry> result(corba_entries->length());
+	std::vector<Entry> result(corba_entries->m_entries.length());
 	for (size_t i = 0; i < result.size(); i++){
-		result[i] = corbaEntry2entry((*corba_entries)[i]);
+		result[i] = corbaEntry2entry(corba_entries->m_entries[i]);
+	}
+	return result;
+}
+
+std::shared_ptr<Visitor> createVisitor(int type)
+{
+	std::shared_ptr<Visitor> result;
+	switch (type) {
+	case 1:
+		result = std::make_shared<InvertVisitor>();
+		break;
+	case 2:
+		result = std::make_shared<toLowerVisitor>();
+		break;
+	case 3:
+		result = std::make_shared<toUpperVisitor>();
+		break;
 	}
 	return result;
 }

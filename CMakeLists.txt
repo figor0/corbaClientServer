@@ -21,6 +21,8 @@ set(OMNIDLFILES
     src/objectSK.cc
     inc/Servant.h
     src/Servant.cpp
+    inc/Visitor.h
+    src/Visitor.cpp
 )
 set(CLIENT_HEADERS
     inc/EntriesModel.h

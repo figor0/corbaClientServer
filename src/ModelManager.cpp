@@ -13,7 +13,7 @@ ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 bool ModelManager::load()
 {
 	bool result = true;
-	std::vector<Entry> loaded_data = m_loader->load();
+	std::vector<Entry> loaded_data = m_loader->load(0);
 	m_model_ptr->resetData(loaded_data);
 	return result;
 }

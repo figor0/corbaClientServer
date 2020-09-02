@@ -34,6 +34,20 @@ EntryIdl::operator<<= (cdrStream &_n)
 
 }
 
+void
+MyInterface::Entries::operator>>= (cdrStream &_n) const
+{
+  (const _CORBA_Unbounded_Sequence< EntryIdl > &) m_entries >>= _n;
+
+}
+
+void
+MyInterface::Entries::operator<<= (cdrStream &_n)
+{
+  (_CORBA_Unbounded_Sequence< EntryIdl > &)m_entries <<= _n;
+
+}
+
 MyInterface_ptr MyInterface_Helper::_nil() {
   return ::MyInterface::_nil();
 }
@@ -142,7 +156,7 @@ _objref_MyInterface::_ptrToObjRef(const char* id)
 // Code for MyInterface::load
 
 // Proxy call descriptor class. Mangled signature:
-//  _cMyInterface_mEntries
+//  void_i_clong_o_cMyInterface_mEntries
 class _0RL_cd_9d56a81675c47daa_00000000
   : public omniCallDescriptor
 {
@@ -153,26 +167,41 @@ public:
     
   }
   
-  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
   void unmarshalReturnedValues(cdrStream&);
   void marshalReturnedValues(cdrStream&);
   
   
   static const char* const _user_exns[];
 
-  MyInterface::Entries_var result;
+  ::CORBA::Long arg_0;
+  MyInterface::Entries_var arg_1;
 };
+
+void _0RL_cd_9d56a81675c47daa_00000000::marshalArguments(cdrStream& _n)
+{
+  arg_0 >>= _n;
+
+}
+
+void _0RL_cd_9d56a81675c47daa_00000000::unmarshalArguments(cdrStream& _n)
+{
+  (::CORBA::Long&)arg_0 <<= _n;
+
+}
 
 void _0RL_cd_9d56a81675c47daa_00000000::marshalReturnedValues(cdrStream& _n)
 {
-  (const MyInterface::Entries&) result >>= _n;
+  (const MyInterface::Entries&) arg_1 >>= _n;
 
 }
 
 void _0RL_cd_9d56a81675c47daa_00000000::unmarshalReturnedValues(cdrStream& _n)
 {
-  result = new MyInterface::Entries;
-  (MyInterface::Entries&)result <<= _n;
+  arg_1 = new MyInterface::Entries;
+  (MyInterface::Entries&)arg_1 <<= _n;
 
 }
 
@@ -186,18 +215,18 @@ _0RL_lcfn_9d56a81675c47daa_10000000(omniCallDescriptor* cd, omniServant* svnt)
 {
   _0RL_cd_9d56a81675c47daa_00000000* tcd = (_0RL_cd_9d56a81675c47daa_00000000*)cd;
   _impl_MyInterface* impl = (_impl_MyInterface*) svnt->_ptrToInterface(MyInterface::_PD_repoId);
-  tcd->result = impl->load();
+  impl->load(tcd->arg_0, tcd->arg_1.out());
 
 
 }
 
-MyInterface::Entries* _objref_MyInterface::load()
+void _objref_MyInterface::load(::CORBA::Long action, ::MyInterface::Entries_out ent)
 {
   _0RL_cd_9d56a81675c47daa_00000000 _call_desc(_0RL_lcfn_9d56a81675c47daa_10000000, "load", 5);
-
+  _call_desc.arg_0 = action;
 
   _invoke(_call_desc);
-  return _call_desc.result._retn();
+  ent = _call_desc.arg_1._retn();
 
 
 }

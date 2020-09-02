@@ -64,7 +64,7 @@ getObjectReference(CORBA::ORB_ptr orb)
 	return CORBA::Object::_nil();
 }
 
-std::vector<Entry> CorbaLoader::load()
+std::vector<Entry> CorbaLoader::load(const int type)
 {
 	std::vector<Entry> result;
 	try
@@ -78,16 +78,9 @@ std::vector<Entry> CorbaLoader::load()
 		}
 		else
 		{
-			auto entries = oRef->load();
-			std::cout << "Entries: " << '\n';
-			for (size_t i = 0; i < entries->length(); i++)
-			{
-				std::cout << " First_name: " << entries->operator[](i).first_name
-						<< " Last_name: " << entries->operator[](i).last_name
-						<< " Father_name: " << entries->operator[](i).father_name
-						<< " Phone: " << entries->operator[](i).phone << '\n';
-			}
-			result = corbaEntries2Entries(entries);
+			MyInterface::Entries* entries_out;
+			oRef->load(type, entries_out);
+			result = corbaEntries2Entries(entries_out);
 		}
 	}
 	catch(const CORBA::Exception& e)
