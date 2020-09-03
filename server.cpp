@@ -5,6 +5,7 @@
 #include <CORBA.h>
 #include <DBManager.h>
 #include <QFile>
+#include <thread>
 
 const QString db_global_path = "./db";
 const size_t g_entries_size = 20;
@@ -56,7 +57,12 @@ int main(int argc, char* argv[])
 			return 1;
 		PortableServer::POAManager_var pman = poa->the_POAManager();
 		pman->activate();
-		server.start();
+
+		std::thread worker(&Server::start, &server);
+		std::cout << "Введите любой символ для выхода" << std::endl;
+		getchar();
+		orb->shutdown(true);
+		worker.join();
 		dbClear();
 		return 0;
 	}
