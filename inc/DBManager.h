@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include <Entry.h>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <object.hh>
 
 enum class EntryType{
 	FirstName,
@@ -13,18 +13,19 @@ enum class EntryType{
 };
 
 QString EntryType2Str(EntryType type);
-Entry readEntry(const QSqlQuery& query, const QSqlRecord& record);
+EntryIdl readEntry(const QSqlQuery& query, const QSqlRecord& record);
 
 class DBManager {
 public:
+	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
 	DBManager(const DBManager& copy) = delete;
 	static DBManager& instance(){
 		static DBManager db_manager;
 		return db_manager;
 	}
-	std::vector<Entry> load(const QString& db_path);
+	Sequence load(const QString& db_path);
 	size_t save(const QString& db_path,
-			  const std::vector<Entry>& entries);
+			  const Sequence& entries);
 private:
 	DBManager();
 	QString m_table_name = "Entries";

@@ -7,9 +7,10 @@ Server::Server(const QString &db_path,
 			   CORBA::ORB_var orb)
 {
 	auto& manager = DBManager::instance();
-	auto data_vector = manager.load(db_path);
+	MyInterface::Entries_var entries = new MyInterface::Entries;
+	entries->m_entries = manager.load(db_path);
 	m_orb_ptr = orb;
-	m_servant_ptr = new MyInterfaceImpl(data_vector);
+	m_servant_ptr = new MyInterfaceImpl(entries);
 	m_ref = m_orb_ptr->object_to_string(m_servant_ptr->_this());
 }
 

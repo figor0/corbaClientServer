@@ -8,7 +8,7 @@
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 						   QObject *parent): QObject(parent),
 	m_loader(loader_ptr),
-	m_entries_ptr(std::make_shared<std::vector<Entry>>()),
+	m_entries_ptr(new MyInterface::Entries),
 	m_model_ptr(std::make_shared<EntriesModel>(m_entries_ptr))
 {}
 
@@ -16,14 +16,14 @@ void ModelManager::change(const int action)
 {
 	auto input_entries = m_model_ptr->entries();
 	m_loader->change(action, input_entries);
-	m_model_ptr->resetData(input_entries);
+	m_model_ptr->resetData(input_entries.m_entries);
 }
 
 bool ModelManager::load(const int action)
 {
 	bool result = true;
-	std::vector<Entry> loaded_data = m_loader->load(action);
-	m_model_ptr->resetData(loaded_data);
+	auto data = m_loader->load(action);
+	m_model_ptr->resetData(data.m_entries);
 	return result;
 }
 

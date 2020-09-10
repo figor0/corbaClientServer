@@ -2,11 +2,15 @@
 #include <QString>
 #include <Entry.h>
 #include <vector>
+#include <object.hh>
+namespace generator
+{
+	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
+	QString wordGenerator(const size_t word_size);
 
-QString wordGenerator(const size_t word_size);
+	QString numberGenerator();
 
-QString numberGenerator();
+	EntryIdl entryGenerator();
 
-Entry entryGenerator();
-
-std::vector<Entry> entriesGenerator(size_t amount);
+	Sequence entriesGenerator(size_t amount);
+}

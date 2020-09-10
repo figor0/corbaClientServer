@@ -1,7 +1,6 @@
 #include <CorbaLoader.h>
 #include <Servant.h>
 #include <iostream>
-#include <cpp2idlEntry.h>
 
 CorbaLoader::CorbaLoader( CORBA::ORB_var orb)
 	:  m_orb(orb)
@@ -65,9 +64,9 @@ getObjectReference(CORBA::ORB_ptr orb)
 	return CORBA::Object::_nil();
 }
 
-std::vector<Entry> CorbaLoader::load(const int type)
+MyInterface::Entries CorbaLoader::load(const int type)
 {
-	std::vector<Entry> result;
+	MyInterface::Entries result;
 	try
 	{
 		CORBA::Object_var o = getObjectReference(m_orb);
@@ -81,7 +80,7 @@ std::vector<Entry> CorbaLoader::load(const int type)
 		{
 			MyInterface::Entries_var entries_out;
 			oRef->load(type, entries_out);
-			result = corbaEntries2Entries(entries_out);
+			result = entries_out;
 		}
 	}
 	catch(const CORBA::Exception& e)
@@ -91,7 +90,7 @@ std::vector<Entry> CorbaLoader::load(const int type)
 	return result;
 }
 
-void CorbaLoader::change(const int type, std::vector<Entry>& entries)
+void CorbaLoader::change(const int type, MyInterface::Entries& entries)
 {
 	try
 	{
@@ -104,9 +103,7 @@ void CorbaLoader::change(const int type, std::vector<Entry>& entries)
 		}
 		else
 		{
-			auto entries_out = vect2corbaEntries(entries);
-			oRef->changeRequest(type, *entries_out);
-			entries = corbaEntries2Entries(*entries_out);
+			oRef->changeRequest(type, entries);
 		}
 	}
 	catch(const CORBA::Exception& e)

@@ -26,7 +26,7 @@ private:
 	CORBA::ORB_var m_orb_ptr;
 };
 
-MyInterfaceImpl::Entries_sptr vect2corbaEntries(const std::vector<Entry>& entries_vector);
+MyInterface::Entries_var vect2corbaEntries(const std::vector<Entry>& entries_vector);
 
 EntryIdl entry2corbaEntry(const Entry& entry);
 

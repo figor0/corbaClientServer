@@ -1,6 +1,7 @@
 #include <generate.h>
 
-QString wordGenerator(const size_t word_size)
+using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
+QString generator::wordGenerator(const size_t word_size)
 {
 	QString result;
 	int a_code = static_cast<int>('a');
@@ -24,23 +25,25 @@ QString numberGenerator()
 	return result;
 }
 
-Entry entryGenerator()
+EntryIdl generator::entryGenerator()
 {
+	using namespace generator;
 	return {
-		wordGenerator(8),
-				wordGenerator(8),
-				wordGenerator(8),
-				numberGenerator()
+		wordGenerator(8).toStdString().data(),
+		wordGenerator(8).toStdString().data(),
+		wordGenerator(8).toStdString().data(),
+		wordGenerator(8).toStdString().data()
 	};
 }
 
-std::vector<Entry> entriesGenerator(size_t amount)
+Sequence generator::entriesGenerator(size_t amount)
 {
-	std::vector<Entry> result;
-	for ( size_t i = 0; i < amount; i++)
+	Sequence result;
+	result.length(amount);
+	for ( size_t i = 0; i < result.length(); i++)
 	{
-		result.push_back(entryGenerator());
+		result[i] = entryGenerator();
 	}
-	assert(result.size() == amount);
+	assert(result.length() == amount);
 	return result;
 }

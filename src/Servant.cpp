@@ -4,8 +4,8 @@
 #include <Action.h>
 
 
-MyInterfaceImpl::MyInterfaceImpl(const std::vector<Entry>& entries_vector)
-	: m_entries(vect2corbaEntries(entries_vector))
+MyInterfaceImpl::MyInterfaceImpl(MyInterface::Entries_var entries_var)
+	: m_entries(entries_var)
 {}
 
 void MyInterfaceImpl::load(::CORBA::Long action_id,
@@ -24,11 +24,6 @@ void MyInterfaceImpl::changeRequest(::CORBA::Long action_id, MyInterface::Entrie
 	auto  action = createAction(action_id);
 	if (action != nullptr)
 		action->prepare(&entr);
-}
-
-MyInterfaceImpl::Entries_sptr MyInterfaceImpl::entries() const
-{
-	return m_entries;
 }
 
 std::shared_ptr<Action> createAction(int type)

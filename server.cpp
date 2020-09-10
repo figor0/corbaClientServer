@@ -18,8 +18,8 @@ QString dbPrepare()
 	}
 	QString result;
 	auto& saver = DBManager::instance();
-	auto generated_data = entriesGenerator(g_entries_size);
-	if (saver.save(db_global_path, generated_data) == generated_data.size()){
+	auto generated_data = generator::entriesGenerator(g_entries_size);
+	if (saver.save(db_global_path, generated_data) == generated_data.length()){
 		result = db_global_path;
 	}
 	return result;
@@ -51,8 +51,6 @@ int main(int argc, char* argv[])
 		// Obtain a reference to the object, and register it in
 		// the naming service.
 		obj = server.getServant_ptr()->_this();
-		CORBA::String_var sior(orb->object_to_string(obj));
-//		std::cout << sior << std::endl;
 		if (!bindObjectToName(orb, obj))
 			return 1;
 		PortableServer::POAManager_var pman = poa->the_POAManager();
@@ -127,7 +125,7 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref)
 			return 0;
 		}
 	}
-	// Bind objref with name Echo to the testContext:
+	// Bind objref with the testContext:
 	CosNaming::Name objectName;
 	objectName.length(1);
 	objectName[0].id = (const char*) "Loader"; // string copied

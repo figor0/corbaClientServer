@@ -16,9 +16,9 @@ DBManager::DBManager():
 	m_db(QSqlDatabase::addDatabase("QSQLITE"))
 {}
 
-std::vector<Entry> DBManager::load(const QString &db_path)
+DBManager::Sequence DBManager::load(const QString &db_path)
 {
-	std::vector<Entry> result;
+	DBManager::Sequence result;
 	m_db.setDatabaseName(db_path);
 	if (m_db.open() == false){
 		qDebug() << "Error db open";
@@ -27,7 +27,8 @@ std::vector<Entry> DBManager::load(const QString &db_path)
 		if (query.exec("select * from Entries;")){
 			QSqlRecord record = query.record();
 			while(query.next() == true){
-				result.push_back(readEntry(query, record));
+				result.length(result.length() + 1);
+				result[result.length()-1] = readEntry(query, record);
 			}
 		}
 	}
@@ -35,7 +36,7 @@ std::vector<Entry> DBManager::load(const QString &db_path)
 	return result;
 }
 
-size_t DBManager::save(const QString &db_path, const std::vector<Entry> &entries)
+size_t DBManager::save(const QString &db_path, const Sequence &entries)
 {
 	QString read_request_template("Select from Entries WHERE phone == %1");
 	QString insert_request_template("Insert into Entries (first_name, last_name,"
@@ -62,12 +63,12 @@ size_t DBManager::save(const QString &db_path, const std::vector<Entry> &entries
 			qDebug() << "Can't create table " << m_table_name;
 		}
 	}
-	for (const auto& item: entries){
+	for (size_t i = 0; i < entries.length(); i++){
 		command = insert_request_template
-				.arg(item.first_name)
-				.arg(item.last_name)
-				.arg(item.father_name)
-				.arg(item.phone);
+				.arg(QString(entries[i].first_name))
+				.arg(QString(entries[i].last_name))
+				.arg(QString(entries[i].father_name))
+				.arg(QString(entries[i].phone));
 		if (!query.exec(command)) {
 			qDebug() << "Fail input";
 		} else{
@@ -78,25 +79,22 @@ size_t DBManager::save(const QString &db_path, const std::vector<Entry> &entries
 	return saved_size;
 }
 
-Entry readEntry(const QSqlQuery &query, const QSqlRecord &record){
-	Entry result;
-	result.first_name = query.value(record.indexOf
-									(
-										EntryType2Str(EntryType::FirstName)
-										)).toString();
-	result.last_name = query.value(
-				record.indexOf
-				(
-					EntryType2Str(EntryType::LastName)
-					)).toString();
-	result.father_name = query.value( record.indexOf
-									  (
-										  EntryType2Str(EntryType::FatherName)
-										  )).toString();
-	result.phone= query.value(
-				record.indexOf
-				(
-					EntryType2Str(EntryType::Phone)
-					)).toString();
+QString readString(const QSqlQuery &query,
+				   const QSqlRecord& record,
+				   const EntryType type)
+{
+	return query.value(record.indexOf(EntryType2Str(type))).toString();
+}
+
+EntryIdl readEntry(const QSqlQuery &query, const QSqlRecord &record){
+	EntryIdl result;
+	result.first_name = CORBA::string_dup(
+				readString(query, record, EntryType::FirstName).toStdString().data());
+	result.last_name = CORBA::string_dup(
+				readString(query, record, EntryType::LastName).toStdString().data());
+	result.father_name = CORBA::string_dup(
+				readString(query, record, EntryType::FatherName).toStdString().data());
+	result.phone = CORBA::string_dup(
+				readString(query, record, EntryType::Phone).toStdString().data());
 	return result;
 }
