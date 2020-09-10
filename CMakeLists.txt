@@ -20,8 +20,6 @@ include_directories(/usr/include/omniORB4 /usr/include/omnithread)
 set(OMNIDLFILES
     inc/object.hh
     src/objectSK.cc
-    inc/cpp2idlEntry.h
-    src/cpp2idlEntry.cpp
 )
 set(CLIENT_HEADERS
     inc/EntriesModel.h
@@ -47,11 +45,9 @@ set(SERVER_SOURCES
     )
 set(HEADERS
     inc/generate.h
-    inc/Entry.h
     )
 set(SOURCES
     src/generate.cpp
-    src/Entry.cpp
     )
 
 add_executable(Corba_Client
