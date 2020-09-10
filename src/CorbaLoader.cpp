@@ -71,7 +71,7 @@ std::vector<Entry> CorbaLoader::load(const int type)
 	try
 	{
 		CORBA::Object_var o = getObjectReference(m_orb);
-		MyInterface_ptr oRef = MyInterface::_narrow (o);
+		MyInterface_var oRef = MyInterface::_narrow (o);
 		if (CORBA::is_nil(oRef))
 		{
 			std::cout << "Failure during getting of object"
