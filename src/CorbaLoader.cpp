@@ -64,9 +64,9 @@ getObjectReference(CORBA::ORB_ptr orb)
 	return CORBA::Object::_nil();
 }
 
-MyInterface::Entries CorbaLoader::load(const int type)
+MyInterface::Entries_var CorbaLoader::load(const int type)
 {
-	MyInterface::Entries result;
+	MyInterface::Entries_var entries_out;
 	try
 	{
 		CORBA::Object_var o = getObjectReference(m_orb);
@@ -78,16 +78,14 @@ MyInterface::Entries CorbaLoader::load(const int type)
 		}
 		else
 		{
-			MyInterface::Entries_var entries_out;
 			oRef->load(type, entries_out);
-			result = entries_out;
 		}
 	}
 	catch(const CORBA::Exception& e)
 	{
 		std::cerr << e._name() << std::endl;
 	}
-	return result;
+	return entries_out;
 }
 
 void CorbaLoader::change(const int type, MyInterface::Entries& entries)

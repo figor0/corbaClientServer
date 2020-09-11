@@ -22,7 +22,7 @@ bool ModelManager::load(const int action)
 {
 	bool result = true;
 	auto data = m_loader->load(action);
-	m_model_ptr->resetData(data.m_entries);
+	m_model_ptr->resetData(data->m_entries);
 	return result;
 }
 
