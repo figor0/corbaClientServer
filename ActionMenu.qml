@@ -9,32 +9,45 @@ Item {
         menu.title = "Ничего не делать";
         action_type = 0;
     }
-    MenuBar{
-        id: players
+    Item{
         anchors.fill: parent
-        Menu{
-            id: menu
-            title: qsTr("Ничего не делать")
-            Action {
-                text: qsTr("Инвертировать записи")
-                onTriggered: {
-                    action_type = 1;
-                    menu.title = text;
-                }
+        Rectangle{
+            color: "yellow"
+            anchors.fill: parent
+        }
+        Text{
+            id: menu_text
+            anchors.fill: parent
+            text: qsTr("Ничего не делать")
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                menu.open()
             }
-            Action {
-                text: qsTr("К маленькой букве")
-                onTriggered: {
-                   menu.title = text;
-                   action_type = 2;
-                }
+        }
+    }
+    Menu{
+        id: menu
+        MenuItem{
+            text: qsTr("Инвертировать записи")
+            onTriggered: {
+                action_type = 1;
+                menu_text.text = text;
             }
-            Action {
-                text: qsTr("К большой букве")
-                onTriggered: {
-                   menu.title = text;
-                   action_type = 3;
-                }
+        }
+        MenuItem{
+            text: qsTr("К маленькой букве")
+            onTriggered: {
+               menu_text.text = text;
+               action_type = 2;
+            }
+        }
+        MenuItem{
+            text: qsTr("К большой букве")
+            onTriggered: {
+               menu_text.text = text;
+               action_type = 3;
             }
         }
     }
