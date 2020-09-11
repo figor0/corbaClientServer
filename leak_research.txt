@@ -1,0 +1,291 @@
+Санитайзер обнаружил утечку в сторонних библиотеках. 
+Попробую убрать часть qml что бы понять, какие части за что в ответе
+
+РЕШЕНО: Проблема кроется в реализации всплывающих окон. Основная утечка от них Файл ActionMenu.qml
+
+1) Без вырезов
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x7fd101765b40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7fd0f5b6d8ed  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1d8ed)
+
+Indirect leak of 704 byte(s) in 8 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0ffbf1dd2 in QMetaObjectPrivate::connect(QObject const*, int, QMetaObject const*, QObject const*, int, QMetaObject const*, int, int*) kernel/qobject.cpp:3422
+
+Indirect leak of 320 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101765b40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7fd0ffbf04e4 in QObjectPrivate::ConnectionData::resizeSignalVector(unsigned int) kernel/qobject_p.h:297
+    #2 0x7fd0ffbf04e4 in QObjectPrivate::addConnection(int, QObjectPrivate::Connection*) kernel/qobject.cpp:326
+
+Indirect leak of 288 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd100cb5422 in QQmlData::createQQmlData(QObjectPrivate*) qml/qqmlengine.cpp:2012
+
+Indirect leak of 208 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0e7184fc3 in QQmlObjectModel::QQmlObjectModel(QObject*) /home/qt/work/qt/qtdeclarative/src/qmlmodels/qqmlobjectmodel.cpp:236
+
+Indirect leak of 176 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0ffbf34b2 in QObjectPrivate::connectImpl(QObject const*, int, QObject const*, void**, QtPrivate::QSlotObjectBase*, Qt::ConnectionType, int const*, QMetaObject const*) kernel/qobject.cpp:5050
+
+Indirect leak of 128 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101765f30 in realloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdef30)
+    #1 0x7fd0ffa1d7d0 in QListData::realloc_grow(int) tools/qlist.cpp:170
+
+Indirect leak of 80 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0ffbf0611 in QObjectPrivate::ensureConnectionData() kernel/qobject_p.h:373
+    #2 0x7fd0ffbf0611 in QObjectPrivate::addConnection(int, QObjectPrivate::Connection*) kernel/qobject.cpp:324
+
+Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7fd101765d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+    #1 0x7fd0f5b6dfd8  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1dfd8)
+
+Indirect leak of 32 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0e67d8f79 in QQuickMenuPrivate::QQuickMenuPrivate() /home/qt/work/qt/qtquickcontrols2/src/quicktemplates2/qquickmenu.cpp:213
+
+Indirect leak of 32 byte(s) in 2 object(s) allocated from:
+    #0 0x7fd101767448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fd0ffa22ec5 in QtSharedPointer::ExternalRefCountData::getAndRef(QObject const*) tools/qsharedpointer.cpp:1402
+SUMMARY: AddressSanitizer: 2256 byte(s) leaked in 26 allocation(s).
+
+2) main.qml 57 - 72
+//    TableView{
+//        id: table_view
+//        model: entries
+//        anchors{
+//            left: parent.left
+//            right: parent.right
+//            top: field_names.bottom
+//            bottom: parent.bottom
+//        }
+//        property bool editable: true
+//        delegate: EntryDelegate{
+//            implicitHeight: 20
+//            implicitWidth: table_view.width
+//        }
+//    }
+SUMMARY: AddressSanitizer: 2256 byte(s) leaked in 26 allocation(s).
+Количество утечек не изменилось.
+
+3) main.qml 
+//    GridView{
+//        id: field_names
+//        height: parent.height*0.05
+//        anchors{
+//            top: header.bottom
+//            left: parent.left
+//            right: parent.right
+//        }
+//        model: ListModel{
+//            ListElement{name: "Имя"}
+//            ListElement{name: "Фамилия"}
+//            ListElement{name: "Отчество"}
+//            ListElement{name: "Телефон"}
+//        }
+//        cellHeight: height
+//        cellWidth: width*0.20
+//        delegate: Rectangle{
+//            implicitHeight: field_names.height
+//            implicitWidth: field_names.width*0.20
+//            border.color: "black"
+//            border.width: 1
+//            Text{
+//                anchors.fill: parent
+//                text: model.name
+//            }
+//        }
+//    }
+SUMMARY: AddressSanitizer: 2256 byte(s) leaked in 26 allocation(s).
+количество утечек не изменилось
+
+4) 20 - 28
+        HeadControls{
+            id: header_controls
+            height: parent.height*0.5
+            anchors{
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+        }
+количество утечек сократилось
+
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x7f3e06bb0b40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7f3dfaf6d8ed  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1d8ed)
+
+Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7f3e06bb0d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+    #1 0x7f3dfaf6dfd8  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1dfd8)
+
+5) если убрать сразу 2 блока - 4) и 3) то утечки исчезнут. Но если оставить блок 4) и убрать 2). То вернуться утечки в полном объёме
+
+/////////////// Изучим детальнее 4). Он в файле HeadControls.qml
+
+1) строки 42 - 75. Количество утечек сократилось почти в 2 раза
+//    Item{
+//        id: change_part
+//        width: parent.width*0.5
+//        height: parent.height*0.45
+//        anchors{
+//            top: load_part.bottom
+//            left: parent.left
+//            topMargin: parent.height*0.05
+//            leftMargin: parent.width*0.05
+//        }
+//        Button{
+//            id: change_button
+//            anchors{
+//                left: parent.left
+//                top: parent.top
+//            }
+//            width: parent.width*0.5
+//            height: parent.height
+//            text: "Перегнать для изменения"
+//            onClicked: {
+//                entries_manager.change(change_type.action_type)
+//                change_type.refresh()
+//            }
+//        }
+//        ActionMenu{
+//            id: change_type
+//            anchors{
+//                left: change_button.right
+//                top: parent.top
+//            }
+//            width: parent.width*0.5
+//            height: parent.height
+//        }
+//   }
+
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa4b40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7fcf3336d8ed  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1d8ed)
+
+Indirect leak of 352 byte(s) in 4 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf3d430dd2 in QMetaObjectPrivate::connect(QObject const*, int, QMetaObject const*, QObject const*, int, QMetaObject const*, int, int*) kernel/qobject.cpp:3422
+
+Indirect leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa4b40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+    #1 0x7fcf3d42f4e4 in QObjectPrivate::ConnectionData::resizeSignalVector(unsigned int) kernel/qobject_p.h:297
+    #2 0x7fcf3d42f4e4 in QObjectPrivate::addConnection(int, QObjectPrivate::Connection*) kernel/qobject.cpp:326
+
+Indirect leak of 144 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf3e4f4422 in QQmlData::createQQmlData(QObjectPrivate*) qml/qqmlengine.cpp:2012
+
+Indirect leak of 104 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf24984fc3 in QQmlObjectModel::QQmlObjectModel(QObject*) /home/qt/work/qt/qtdeclarative/src/qmlmodels/qqmlobjectmodel.cpp:236
+
+Indirect leak of 88 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf3d4324b2 in QObjectPrivate::connectImpl(QObject const*, int, QObject const*, void**, QtPrivate::QSlotObjectBase*, Qt::ConnectionType, int const*, QMetaObject const*) kernel/qobject.cpp:5050
+
+Indirect leak of 64 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa4f30 in realloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xdef30)
+    #1 0x7fcf3d25c7d0 in QListData::realloc_grow(int) tools/qlist.cpp:170
+
+Indirect leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf3d42f611 in QObjectPrivate::ensureConnectionData() kernel/qobject_p.h:373
+    #2 0x7fcf3d42f611 in QObjectPrivate::addConnection(int, QObjectPrivate::Connection*) kernel/qobject.cpp:324
+
+Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa4d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+    #1 0x7fcf3336dfd8  (/usr/lib/x86_64-linux-gnu/libfontconfig.so.1+0x1dfd8)
+
+Indirect leak of 16 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf23fd8f79 in QQuickMenuPrivate::QQuickMenuPrivate() /home/qt/work/qt/qtquickcontrols2/src/quicktemplates2/qquickmenu.cpp:213
+
+Indirect leak of 16 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf3efa6448 in operator new(unsigned long) (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xe0448)
+    #1 0x7fcf3d261ec5 in QtSharedPointer::ExternalRefCountData::getAndRef(QObject const*) tools/qsharedpointer.cpp:1402
+
+SUMMARY: AddressSanitizer: 1272 byte(s) leaked in 14 allocation(s).
+
+2) строки 8 - 41. Столько же памяти утекло. Как и в блоке 1)
+    property bool appednable: true
+//    Item{
+//        id: load_part
+//        width: parent.width*0.5
+//        height: parent.height*0.45
+//        anchors{
+//            top: parent.top
+//            left: parent.left
+//            leftMargin: parent.width*0.05
+//        }
+//        Button{
+//            id: load_button
+//            anchors{
+//                left: parent.left
+//                top:parent.top
+//            }
+//            height: parent.height
+//            width: parent.width*0.5
+//            text: "Загрузить записи"
+//            onClicked: {
+//                entries_manager.load(load_type.action_type)
+//                load_type.refresh()
+//            }
+//        }
+//        ActionMenu{
+//            id: load_type
+//            anchors{
+//                left: load_button.right
+//                top: parent.top
+//            }
+//            width: parent.width*0.5
+//            height: parent.height
+//        }
+//    }
+
+SUMMARY: AddressSanitizer: 1272 byte(s) leaked in 14 allocation(s).
+
+Детально изучим блок 1
+
+1.1) строки 66 - 75. Этот кусок и вызывал все утечки блока 1
+        }
+//        ActionMenu{
+//            id: change_type
+//            anchors{
+//                left: change_button.right
+//                top: parent.top
+//            }
+//            width: parent.width*0.5
+//            height: parent.height
+//        }
+SUMMARY: AddressSanitizer: 1272 byte(s) leaked in 14 allocation(s).
+
+/////////////////////////////
+Посмотрим ActionMenu, который в файле ActionMenu.qml
+
+
+1) строки 17 - 38. Если убрать все Action из Menu. То основные утечки этого блока уходят
+//            Action {
+//                text: qsTr("Инвертировать записи")
+//                onTriggered: {
+//                    action_type = 1;
+//                    menu.title = text;
+//                }
+//            }
+//            Action {
+//                text: qsTr("К маленькой букве")
+//                onTriggered: {
+//                   menu.title = text;
+//                   action_type = 2;
+//                }
+//            }
+//            Action {
+//                text: qsTr("К большой букве")
+//                onTriggered: {
+//                   menu.title = text;
+//                   action_type = 3;
+//                }
+//            }
+Проблема кроется в реализации всплывающих окон. Основная утечка от них
