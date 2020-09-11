@@ -12,7 +12,6 @@ public:
 	MyInterfaceImpl(MyInterface::Entries_var entries_var);
 	void load(::CORBA::Long action_id, MyInterface::Entries_out ent) override;
 	void changeRequest(::CORBA::Long action_id, MyInterface::Entries& entr) override;
-	MyInterface::Entries_var entries() const;
 private:
 	MyInterface::Entries_var m_entries;
 public:
