@@ -1,6 +1,5 @@
 #pragma once
 #include <QString>
-#include <Entry.h>
 #include <vector>
 #include <object.hh>
 namespace generator

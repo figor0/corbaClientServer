@@ -14,7 +14,7 @@ QString generator::wordGenerator(const size_t word_size)
 	return result;
 }
 
-QString numberGenerator()
+QString generator::numberGenerator()
 {
 	QString result("+");
 	for (size_t i = 0; i < 11; i++){
@@ -32,7 +32,7 @@ EntryIdl generator::entryGenerator()
 		wordGenerator(8).toStdString().data(),
 		wordGenerator(8).toStdString().data(),
 		wordGenerator(8).toStdString().data(),
-		wordGenerator(8).toStdString().data()
+		numberGenerator().toStdString().data()
 	};
 }
 
