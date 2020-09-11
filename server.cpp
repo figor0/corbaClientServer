@@ -42,10 +42,12 @@ int main(int argc, char* argv[])
 {
 	try
 	{
+		std::cout << "Подготовка демонстрационной базы данных" << std::endl;
 		dbPrepare();
 		CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
 		CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
 		PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
+		std::cout << "Подготовка сервера" << std::endl;
 		Server server("./db", orb);
 //		PortableServer::ObjectId_var myechoid = poa->activate_object(server.getServant_ptr());
 		// Obtain a reference to the object, and register it in
@@ -56,10 +58,13 @@ int main(int argc, char* argv[])
 		PortableServer::POAManager_var pman = poa->the_POAManager();
 		pman->activate();
 
+		std::cout << "Запуск сервера в другом потоке" << std::endl;
 		server.startInOtherThread();
 		std::cout << "Введите любой символ для выхода" << std::endl;
 		getchar();
+		std::cout << "Остановка сервера" << std::endl;
 		server.stop();
+		std::cout << "Очистка демонстрационной базы данных" << std::endl;
 		dbClear();
 		return 0;
 	}
