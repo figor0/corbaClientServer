@@ -1,6 +1,5 @@
 #include <EntriesModel.h>
 #include <DBManager.h>
-#include <Entry.h>
 #include <QByteArray>
 
 EntriesModel::EntriesModel( MyInterface::Entries_var entries_ptr,

@@ -1,7 +1,6 @@
 #include <ModelManager.h>
 #include <QQmlContext>
 #include <EntriesModel.h>
-#include <Entry.h>
 #include <CorbaLoader.h>
 
 
