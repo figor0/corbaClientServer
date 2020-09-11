@@ -2,8 +2,8 @@
 #include <object.hh>
 #include <omniORB4/CORBA.h>
 #include <omnithread.h>
-#include <Entry.h>
 #include <Servant.h>
+#include <QString>
 
 class Server{
 public:
@@ -26,7 +26,4 @@ private:
 	CORBA::ORB_var m_orb_ptr;
 };
 
-MyInterface::Entries_var vect2corbaEntries(const std::vector<Entry>& entries_vector);
-
-EntryIdl entry2corbaEntry(const Entry& entry);
 
