@@ -4,6 +4,7 @@
 #include <omnithread.h>
 #include <Servant.h>
 #include <QString>
+#include <thread>
 
 class Server{
 public:
@@ -15,12 +16,13 @@ public:
 	Server(const QString& db_path,
 		   CORBA::ORB_var orb);
 	CORBA::String_var getRef();
-	void start();
+	void startInOtherThread();
 	void stop();
 	ServerState getState() const;
 	MyInterfaceImpl *getServant_ptr() const;
 private:
 	ServerState m_state = ServerState::Stoped;
+	std::thread m_worker;
 	CORBA::String_var m_ref;
 	InterfaceImpl_ptr m_servant_ptr;
 	CORBA::ORB_var m_orb_ptr;

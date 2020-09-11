@@ -18,14 +18,15 @@ CORBA::String_var Server::getRef(){
 	return m_ref;
 }
 
-void Server::start()
+void Server::startInOtherThread()
 {
-	m_orb_ptr->run();
+	m_worker = std::thread(&CORBA::ORB::run, m_orb_ptr);
 }
 
 void Server::stop()
 {
 	m_orb_ptr->shutdown(true);
+	m_worker.join();
 }
 
 Server::ServerState Server::getState() const

@@ -56,11 +56,10 @@ int main(int argc, char* argv[])
 		PortableServer::POAManager_var pman = poa->the_POAManager();
 		pman->activate();
 
-		std::thread worker(&Server::start, &server);
+		server.startInOtherThread();
 		std::cout << "Введите любой символ для выхода" << std::endl;
 		getchar();
-		orb->shutdown(true);
-		worker.join();
+		server.stop();
 		dbClear();
 		return 0;
 	}
