@@ -14,7 +14,6 @@ public:
 	void changeRequest(::CORBA::Long action_id, MyInterface::Entries& entr) override;
 private:
 	MyInterface::Entries_var m_entries;
-public:
 };
 
 class Action;
