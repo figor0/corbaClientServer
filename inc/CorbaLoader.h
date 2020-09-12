@@ -1,7 +1,7 @@
 #pragma once
 #include <QString>
 #include <CORBA.h>
-#include <Servant.h>
+#include <object.hh>
 #include <iostream>
 
 class CorbaLoader
