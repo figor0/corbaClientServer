@@ -3,7 +3,6 @@
 #include <memory>
 #include <object.hh>
 
-class Entry;
 
 class EntriesModel: public QAbstractTableModel
 {
