@@ -20,9 +20,11 @@ public:
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index = QModelIndex(), int role = Qt::DisplayRole) const;
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-	void resetData(const Sequence& data);
+	bool insertRows(int row, int count, const QModelIndex &parent);
+	bool removeRows(int row, int count, const QModelIndex &parent);
+//	void resetData(const Sequence& data);
 	QHash<int, QByteArray> roleNames() const;
-	MyInterface::Entries entries() const;
+//	MyInterface::Entries entries() const;
 private:
 	MyInterface::Entries_var m_entries_ptr;
 };

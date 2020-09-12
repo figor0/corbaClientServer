@@ -61,22 +61,58 @@ bool EntriesModel::setData(const QModelIndex &index, const QVariant &value, int 
 	return result;
 }
 
-void EntriesModel::resetData(const EntriesModel::Sequence &data)
+bool EntriesModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-	if (data.length() == m_entries_ptr->m_entries.length()){
-		m_entries_ptr->m_entries = data;
-	} else if (data.length() > m_entries_ptr->m_entries.length()){
-		beginInsertRows(QModelIndex(), m_entries_ptr->m_entries.length() - 1,
-						data.length()-1);
-		m_entries_ptr->m_entries = data;
+	size_t size = rowCount();
+	if (row <= static_cast<int>(size)){
+		beginInsertRows(QModelIndex(), row, row + count);
+		m_entries_ptr->m_entries.length(m_entries_ptr->m_entries.length() + count);
+		if (row != static_cast<int>(size)){
+			for (size_t i = 0; i < static_cast<size_t>(count); i++){
+				m_entries_ptr->m_entries[i + row + count] = m_entries_ptr->m_entries[i+row];
+			}
+		}
 		endInsertRows();
-	} else if (data.length() < m_entries_ptr->m_entries.length()){
-		beginRemoveRows(QModelIndex(), data.length()-1, m_entries_ptr->m_entries.length()-1);
-		m_entries_ptr->m_entries = data;
-		endRemoveRows();
+		return true;
 	}
-	emit dataChanged(createIndex(0, 0), createIndex(rowCount() - 1, 0));
+	return false;
 }
+
+bool EntriesModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+	if (row+count <= rowCount()){
+		beginRemoveRows(parent, row, row+count);
+		EntriesModel::Sequence buffer;
+		buffer.length(m_entries_ptr->m_entries.length() - count);
+		for (size_t i = row; i < buffer.length(); i++){
+			buffer[i] = m_entries_ptr->m_entries[i+ row + count];
+		}
+		m_entries_ptr->m_entries.length(m_entries_ptr->m_entries.length() - count);
+		for (size_t i = 0; i < buffer.length(); i++){
+			m_entries_ptr->m_entries[i + row] = buffer[i];
+		}
+		endRemoveRows();
+		return true;
+	}
+	return false;
+}
+
+//void EntriesModel::resetData(const EntriesModel::Sequence &data)
+//{
+//	if (data.length() == m_entries_ptr->m_entries.length()){
+//		m_entries_ptr->m_entries = data;
+//	} else if (data.length() > m_entries_ptr->m_entries.length()){
+//		beginInsertRows(QModelIndex(), m_entries_ptr->m_entries.length() - 1,
+//						data.length()-1);
+//		m_entries_ptr->m_entries = data;
+//		endInsertRows();
+//	} else if (data.length() < m_entries_ptr->m_entries.length()){
+//		beginRemoveRows(QModelIndex(), data.length()-1, m_entries_ptr->m_entries.length()-1);
+//		m_entries_ptr->m_entries = data;
+//		endRemoveRows();
+//	}
+//	emit dataChanged(createIndex(0, 0), createIndex(rowCount() - 1, 0));
+//}
 
 QHash<int, QByteArray> EntriesModel::roleNames() const
 {
@@ -88,7 +124,7 @@ QHash<int, QByteArray> EntriesModel::roleNames() const
 	};
 }
 
-MyInterface::Entries EntriesModel::entries() const
-{
-	return m_entries_ptr;
-}
+//MyInterface::Entries EntriesModel::entries() const
+//{
+//	return m_entries_ptr;
+//}
