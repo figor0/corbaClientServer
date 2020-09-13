@@ -7,13 +7,13 @@
 
 class QQmlContext;
 
-class EntriesModel;
+class QAbstractTableModel;
 
 class ModelManager: public QObject{
 	Q_OBJECT
 public:
 	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
-	using EntriesModel_ptr = std::shared_ptr<EntriesModel>;
+	using EntriesModel_ptr = std::shared_ptr<QAbstractTableModel>;
 	using CorbaLoader_ptr = std::shared_ptr<CorbaLoader>;
 	ModelManager(CorbaLoader_ptr loader, QObject* parent = nullptr);
 	Q_INVOKABLE bool load(int action = 0);
@@ -27,5 +27,6 @@ public:
 	Sequence getEntries() const;
 private:
 	CorbaLoader_ptr m_loader;
+	MyInterface::Entries_var m_entries_ptr;
 	EntriesModel_ptr m_model_ptr;
 };
