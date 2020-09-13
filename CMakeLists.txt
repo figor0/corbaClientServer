@@ -27,11 +27,15 @@ set(CLIENT_HEADERS
     inc/ModelManager.h
     inc/CorbaLoader.h
     inc/PhoneGeneral.h
+    inc/APhonesModel.h
+    inc/APhonesModelManager.h
 )
 set(CLIENT_SOURCES
     src/CorbaLoader.cpp
     src/EntriesModel.cpp
     src/ModelManager.cpp
+    src/APhonesModel.cpp
+    src/APhonesModelManager.cpp
 )
 set(SERVER_HEADERS
     inc/Server.h
