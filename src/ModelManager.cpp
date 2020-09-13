@@ -2,45 +2,12 @@
 #include <QQmlContext>
 #include <CorbaLoader.h>
 #include <PhoneGeneral.h>
-#include <QAbstractTableModel>
 
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
-						   QObject *parent): QObject(parent),
+						   QObject *parent): APhonesModelManager(parent),
 	m_loader(loader_ptr)
 {}
-
-bool ModelManager::setModel(ModelManager::EntriesModel_ptr model_ptr)
-{
-	bool right = false;
-	auto roles = model_ptr->roleNames();
-	if (model_ptr != nullptr){
-		right = roles.find(PhoneEntryRoles::FirstName) != roles.end();
-		right = roles.find(PhoneEntryRoles::LastName) != roles.end();
-		right = roles.find(PhoneEntryRoles::FatherName) != roles.end();
-		right = roles.find(PhoneEntryRoles::Phone) != roles.end();
-	}
-	if (right == true){
-		m_model_ptr = model_ptr;
-	}
-	return right;
-}
-
-void ModelManager::change(const int action)
-{
-	MyInterface::Entries_var entries_ptr = new MyInterface::Entries;
-	entries_ptr->m_entries = getEntries();
-	m_loader->change(action, entries_ptr);
-	resetData(entries_ptr->m_entries);
-}
-
-bool ModelManager::load(const int action)
-{
-	bool result = true;
-	auto data = m_loader->load(action);
-	resetData(data->m_entries);
-	return result;
-}
 
 void ModelManager::registration(QQmlContext* context_ptr,
 								const QString &model_name,
@@ -109,5 +76,21 @@ ModelManager::Sequence ModelManager::getEntries() const
 		entries[i] = getEntry(i);
 	}
 	return entries;
+}
+
+bool ModelManager::private_load(int action)
+{
+	bool result = true;
+	auto data = m_loader->load(action);
+	resetData(data->m_entries);
+	return result;
+}
+
+bool ModelManager::private_chagne(const int action){
+	MyInterface::Entries_var entries_ptr = new MyInterface::Entries;
+	entries_ptr->m_entries = getEntries();
+	m_loader->change(action, entries_ptr);
+	resetData(entries_ptr->m_entries);
+	return true;
 }
 

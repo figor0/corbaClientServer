@@ -3,7 +3,7 @@
 #include <QByteArray>
 #include <PhoneGeneral.h>
 
-EntriesModel::EntriesModel( QObject *parent): QAbstractTableModel(parent),
+EntriesModel::EntriesModel( QObject *parent): APhonesModel(parent),
 	m_entries_ptr(new MyInterface::Entries)
 {}
 
@@ -95,14 +95,4 @@ bool EntriesModel::removeRows(int row, int count, const QModelIndex &parent)
 		return true;
 	}
 	return false;
-}
-
-QHash<int, QByteArray> EntriesModel::roleNames() const
-{
-	return {
-		{FirstName, "first_name"},
-		{LastName, "last_name"},
-		{FatherName, "father_name"},
-		{Phone, "phone"}
-	};
 }

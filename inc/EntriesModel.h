@@ -1,9 +1,9 @@
 #pragma once
-#include <QAbstractTableModel>
+#include <APhonesModel.h>
 #include <memory>
 #include <object.hh>
 
-class EntriesModel: public QAbstractTableModel
+class EntriesModel: public APhonesModel
 {
 	Q_OBJECT
 public:
@@ -16,7 +16,6 @@ public:
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 	bool insertRows(int row, int count, const QModelIndex &parent) override;
 	bool removeRows(int row, int count, const QModelIndex &parent) override;
-	QHash<int, QByteArray> roleNames() const override;
 private:
 	MyInterface::Entries_var m_entries_ptr;
 };
