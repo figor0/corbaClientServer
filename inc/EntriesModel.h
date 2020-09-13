@@ -23,9 +23,7 @@ public:
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 	bool insertRows(int row, int count, const QModelIndex &parent) override;
 	bool removeRows(int row, int count, const QModelIndex &parent) override;
-//	void resetData(const Sequence& data);
 	QHash<int, QByteArray> roleNames() const override;
-//	MyInterface::Entries entries() const;
 private:
 	MyInterface::Entries_var m_entries_ptr;
 };

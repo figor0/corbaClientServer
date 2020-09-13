@@ -96,23 +96,6 @@ bool EntriesModel::removeRows(int row, int count, const QModelIndex &parent)
 	return false;
 }
 
-//void EntriesModel::resetData(const EntriesModel::Sequence &data)
-//{
-//	if (data.length() == m_entries_ptr->m_entries.length()){
-//		m_entries_ptr->m_entries = data;
-//	} else if (data.length() > m_entries_ptr->m_entries.length()){
-//		beginInsertRows(QModelIndex(), m_entries_ptr->m_entries.length() - 1,
-//						data.length()-1);
-//		m_entries_ptr->m_entries = data;
-//		endInsertRows();
-//	} else if (data.length() < m_entries_ptr->m_entries.length()){
-//		beginRemoveRows(QModelIndex(), data.length()-1, m_entries_ptr->m_entries.length()-1);
-//		m_entries_ptr->m_entries = data;
-//		endRemoveRows();
-//	}
-//	emit dataChanged(createIndex(0, 0), createIndex(rowCount() - 1, 0));
-//}
-
 QHash<int, QByteArray> EntriesModel::roleNames() const
 {
 	return {
@@ -122,8 +105,3 @@ QHash<int, QByteArray> EntriesModel::roleNames() const
 		{Phone, "phone"}
 	};
 }
-
-//MyInterface::Entries EntriesModel::entries() const
-//{
-//	return m_entries_ptr;
-//}
