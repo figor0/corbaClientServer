@@ -7,8 +7,7 @@
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 						   QObject *parent): QObject(parent),
 	m_loader(loader_ptr),
-	m_entries_ptr(new MyInterface::Entries),
-	m_model_ptr(std::make_shared<EntriesModel>(m_entries_ptr))
+	m_model_ptr(std::make_shared<EntriesModel>())
 {}
 
 void ModelManager::change(const int action)

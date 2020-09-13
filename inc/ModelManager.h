@@ -27,6 +27,5 @@ public:
 	Sequence getEntries() const;
 private:
 	CorbaLoader_ptr m_loader;
-	MyInterface::Entries_var m_entries_ptr;
 	EntriesModel_ptr m_model_ptr;
 };

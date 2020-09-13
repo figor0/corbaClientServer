@@ -15,7 +15,7 @@ public:
 		Phone
 	};
 	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
-	EntriesModel(MyInterface::Entries_var entries_ptr, QObject* parent = nullptr);
+	EntriesModel(QObject* parent = nullptr);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index = QModelIndex(), int role = Qt::DisplayRole) const;

@@ -2,9 +2,8 @@
 #include <DBManager.h>
 #include <QByteArray>
 
-EntriesModel::EntriesModel( MyInterface::Entries_var entries_ptr,
-							QObject *parent): QAbstractTableModel(parent),
-	m_entries_ptr(entries_ptr)
+EntriesModel::EntriesModel( QObject *parent): QAbstractTableModel(parent),
+	m_entries_ptr(new MyInterface::Entries)
 {}
 
 int EntriesModel::rowCount(const QModelIndex &parent) const
