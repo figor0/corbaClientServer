@@ -7,9 +7,24 @@
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 						   QObject *parent): QObject(parent),
-	m_loader(loader_ptr),
-	m_model_ptr(std::make_shared<EntriesModel>())
+	m_loader(loader_ptr)
 {}
+
+bool ModelManager::setModel(ModelManager::EntriesModel_ptr model_ptr)
+{
+	bool right = false;
+	auto roles = model_ptr->roleNames();
+	if (model_ptr != nullptr){
+		right = roles.find(PhoneEntryRoles::FirstName) != roles.end();
+		right = roles.find(PhoneEntryRoles::LastName) != roles.end();
+		right = roles.find(PhoneEntryRoles::FatherName) != roles.end();
+		right = roles.find(PhoneEntryRoles::Phone) != roles.end();
+	}
+	if (right == true){
+		m_model_ptr = model_ptr;
+	}
+	return right;
+}
 
 void ModelManager::change(const int action)
 {

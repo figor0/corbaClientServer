@@ -15,7 +15,9 @@ public:
 	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
 	using EntriesModel_ptr = std::shared_ptr<QAbstractTableModel>;
 	using CorbaLoader_ptr = std::shared_ptr<CorbaLoader>;
-	ModelManager(CorbaLoader_ptr loader, QObject* parent = nullptr);
+	ModelManager(CorbaLoader_ptr loader,
+				 QObject* parent = nullptr);
+	bool setModel(EntriesModel_ptr model_ptr);
 	Q_INVOKABLE bool load(int action = 0);
 	Q_INVOKABLE void change(const int action = 0);
 	void registration( QQmlContext* context_ptr,
