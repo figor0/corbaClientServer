@@ -26,6 +26,7 @@ set(CLIENT_HEADERS
     inc/EntriesModel.h
     inc/ModelManager.h
     inc/CorbaLoader.h
+    inc/PhoneGeneral.h
 )
 set(CLIENT_SOURCES
     src/CorbaLoader.cpp

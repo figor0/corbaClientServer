@@ -3,13 +3,6 @@
 #include <memory>
 #include <object.hh>
 
-enum PhoneEntryRoles{
-	FirstName = Qt::UserRole + 1,
-	LastName,
-	FatherName,
-	Phone
-};
-
 class EntriesModel: public QAbstractTableModel
 {
 	Q_OBJECT

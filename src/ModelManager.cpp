@@ -2,6 +2,7 @@
 #include <QQmlContext>
 #include <EntriesModel.h>
 #include <CorbaLoader.h>
+#include <PhoneGeneral.h>
 
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,

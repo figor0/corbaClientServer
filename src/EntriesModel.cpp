@@ -1,6 +1,7 @@
 #include <EntriesModel.h>
 #include <DBManager.h>
 #include <QByteArray>
+#include <PhoneGeneral.h>
 
 EntriesModel::EntriesModel( QObject *parent): QAbstractTableModel(parent),
 	m_entries_ptr(new MyInterface::Entries)
