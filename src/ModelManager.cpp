@@ -1,8 +1,8 @@
 #include <ModelManager.h>
 #include <QQmlContext>
-#include <EntriesModel.h>
 #include <CorbaLoader.h>
 #include <PhoneGeneral.h>
+#include <QAbstractTableModel>
 
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
