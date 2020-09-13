@@ -1,23 +1,12 @@
 #include <ModelManager.h>
 #include <QQmlContext>
 #include <CorbaLoader.h>
-#include <PhoneGeneral.h>
 
 
 ModelManager::ModelManager(ModelManager::CorbaLoader_ptr loader_ptr,
 						   QObject *parent): APhonesModelManager(parent),
 	m_loader(loader_ptr)
 {}
-
-void ModelManager::registration(QQmlContext* context_ptr,
-								const QString &model_name,
-								const QString &model_manager_name)
-{
-	if (m_model_ptr == nullptr)
-		throw std::invalid_argument("Model are not exitst");
-	context_ptr->setContextProperty(model_name, m_model_ptr.get());
-	context_ptr->setContextProperty(model_manager_name, this);
-}
 
 void ModelManager::resetData(const ModelManager::Sequence &sequence)
 {
@@ -39,13 +28,13 @@ bool ModelManager::setEntry(const size_t index, const EntryIdl& entry)
 		throw std::invalid_argument("Model are not exitst");
 	bool right = false;
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.first_name), PhoneEntryRoles::FirstName);
+						 QVariant(entry.first_name), APhonesModel::FirstName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.last_name), PhoneEntryRoles::LastName);
+						 QVariant(entry.last_name), APhonesModel::LastName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.father_name), PhoneEntryRoles::FatherName);
+						 QVariant(entry.father_name), APhonesModel::FatherName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.phone), PhoneEntryRoles::Phone);
+						 QVariant(entry.phone), APhonesModel::Phone);
 	return right;
 }
 
@@ -55,13 +44,13 @@ EntryIdl ModelManager::getEntry(const size_t row_number) const
 		throw std::invalid_argument("Model are not exitst");
 	return {
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-							PhoneEntryRoles::FirstName).toString().toStdString().data(),
+							APhonesModel::FirstName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-							PhoneEntryRoles::LastName).toString().toStdString().data(),
+							APhonesModel::LastName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-							PhoneEntryRoles::FatherName).toString().toStdString().data(),
+							APhonesModel::FatherName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-							PhoneEntryRoles::Phone).toString().toStdString().data(),
+							APhonesModel::Phone).toString().toStdString().data(),
 	};
 }
 
