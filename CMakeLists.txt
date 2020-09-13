@@ -26,7 +26,6 @@ set(CLIENT_HEADERS
     inc/EntriesModel.h
     inc/ModelManager.h
     inc/CorbaLoader.h
-    inc/PhoneGeneral.h
     inc/APhonesModel.h
     inc/APhonesModelManager.h
 )
