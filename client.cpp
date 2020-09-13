@@ -5,9 +5,12 @@
 #include <fstream>
 #include <iostream>
 #include <CORBA.h>
+#include <APhonesModel.h>
 #include <EntriesModel.h>
 
-#include<ModelManager.h>
+#include <memory>
+#include <ModelManager.h>
+#include <APhonesModelManager.h>
 
 int main(int argc, char* argv[])
 {
@@ -18,7 +21,7 @@ int main(int argc, char* argv[])
 	CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
 	auto corba_loader_ptr = std::make_shared<CorbaLoader>(orb);
 	ModelManager model_manager(corba_loader_ptr);
-	std::shared_ptr<QAbstractTableModel> model_ptr(new EntriesModel);
+	std::shared_ptr<APhonesModel> model_ptr(new EntriesModel);
 	model_manager.setModel(model_ptr);
 	model_manager.registration(engine.rootContext(), "entries", "entries_manager");
 
