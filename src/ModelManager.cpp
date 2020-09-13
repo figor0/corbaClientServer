@@ -50,13 +50,13 @@ bool ModelManager::setEntry(const size_t index, const EntryIdl& entry)
 {
 	bool right = false;
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.first_name), EntriesModel::Roles::FirstName);
+						 QVariant(entry.first_name), PhoneEntryRoles::FirstName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.last_name), EntriesModel::Roles::LastName);
+						 QVariant(entry.last_name), PhoneEntryRoles::LastName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.father_name), EntriesModel::Roles::FatherName);
+						 QVariant(entry.father_name), PhoneEntryRoles::FatherName);
 	right = m_model_ptr->setData(m_model_ptr->index(index, 0),
-						 QVariant(entry.phone), EntriesModel::Roles::Phone);
+						 QVariant(entry.phone), PhoneEntryRoles::Phone);
 	return right;
 }
 
@@ -64,13 +64,13 @@ EntryIdl ModelManager::getEntry(const size_t row_number) const
 {
 	return {
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-						  EntriesModel::Roles::FirstName).toString().toStdString().data(),
+							PhoneEntryRoles::FirstName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-						  EntriesModel::Roles::LastName).toString().toStdString().data(),
+							PhoneEntryRoles::LastName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-						  EntriesModel::Roles::FatherName).toString().toStdString().data(),
+							PhoneEntryRoles::FatherName).toString().toStdString().data(),
 		m_model_ptr->data(m_model_ptr->index(row_number, 0),
-						  EntriesModel::Roles::Phone).toString().toStdString().data(),
+							PhoneEntryRoles::Phone).toString().toStdString().data(),
 	};
 }
 

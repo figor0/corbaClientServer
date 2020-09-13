@@ -3,17 +3,17 @@
 #include <memory>
 #include <object.hh>
 
+enum PhoneEntryRoles{
+	FirstName = Qt::UserRole + 1,
+	LastName,
+	FatherName,
+	Phone
+};
 
 class EntriesModel: public QAbstractTableModel
 {
 	Q_OBJECT
 public:
-	enum Roles{
-		FirstName = Qt::UserRole + 1,
-		LastName,
-		FatherName,
-		Phone
-	};
 	using Sequence = _CORBA_Unbounded_Sequence<EntryIdl>;
 	EntriesModel(QObject* parent = nullptr);
 	~EntriesModel() override = default;

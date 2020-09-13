@@ -20,16 +20,16 @@ QVariant EntriesModel::data(const QModelIndex &index, int role) const
 {
 	QVariant result;
 	switch (role) {
-	case Roles::FirstName:
+	case PhoneEntryRoles::FirstName:
 			result.setValue(QString(m_entries_ptr->m_entries[index.row()].first_name));
 		break;
-	case Roles::LastName:
+	case PhoneEntryRoles::LastName:
 			result.setValue(QString(m_entries_ptr->m_entries[index.row()].last_name));
 		break;
-	case Roles::FatherName:
+	case PhoneEntryRoles::FatherName:
 			result.setValue(QString(m_entries_ptr->m_entries[index.row()].father_name));
 		break;
-	case Roles::Phone:
+	case PhoneEntryRoles::Phone:
 			result.setValue(QString(m_entries_ptr->m_entries[index.row()].phone));
 		break;
 	}
@@ -41,16 +41,16 @@ bool EntriesModel::setData(const QModelIndex &index, const QVariant &value, int 
 	bool result = true;
 	auto& item_ref = m_entries_ptr->m_entries[index.row()];
 	switch (role) {
-	case Roles::FirstName:
+	case PhoneEntryRoles::FirstName:
 			item_ref.first_name = CORBA::string_dup(value.toString().toStdString().data());
 		break;
-	case Roles::LastName:
+	case PhoneEntryRoles::LastName:
 			item_ref.last_name = CORBA::string_dup(value.toString().toStdString().data());
 		break;
-	case Roles::FatherName:
+	case PhoneEntryRoles::FatherName:
 			item_ref.father_name = CORBA::string_dup(value.toString().toStdString().data());
 		break;
-	case Roles::Phone:
+	case PhoneEntryRoles::Phone:
 			item_ref.phone = CORBA::string_dup(value.toString().toStdString().data());
 		break;
 	default:
