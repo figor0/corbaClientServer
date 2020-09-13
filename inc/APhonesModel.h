@@ -13,6 +13,7 @@ public:
 		FatherName,
 		Phone
 	};
-	virtual ~APhonesModel() = 0;
-	QHash<int, QByteArray> roleNames() const;
+	APhonesModel(QObject* parent = nullptr);
+	virtual ~APhonesModel() override = default;
+	QHash<int, QByteArray> roleNames() const override;
 };

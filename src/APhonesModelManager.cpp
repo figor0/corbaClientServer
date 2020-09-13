@@ -1,8 +1,13 @@
 #include <APhonesModelManager.h>
-#include <APhonesModel.h>
 
 APhonesModelManager::APhonesModelManager(QObject *parent): QObject(parent)
 {}
+
+bool APhonesModelManager::setModel(APhonesModelManager::Model_ptr model_ptr)
+{
+	m_model_ptr = model_ptr;
+	return true;
+}
 
 bool APhonesModelManager::load(int action){
 	bool right_flag = false;

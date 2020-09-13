@@ -1,5 +1,7 @@
 #include <APhonesModel.h>
 
+APhonesModel::APhonesModel(QObject *parent): QAbstractTableModel(parent){}
+
 QHash<int, QByteArray> APhonesModel::roleNames() const
 {
 	return {
